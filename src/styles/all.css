@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  transition: 0.3s;
+  color: #fff;
+}
+
+body {
+  background: #121212;
+}
+
+.left {
+  width: 15%;
+  height: 100vh;
+  float: left;
+  background: #191919;
+  padding: 10px;
+}
+
+nav {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-left: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user {
+  display: none;
+  position: relative;
+}
+
+#userOnClick {
+  display: none;
+  position: absolute;
+  top: 40px;
+  background: #222;
+  width: 150px;
+  border-radius: 5px;
+  font-size: 1rem;
+  line-height: 35px;
+  padding: 5px;
+  z-index: 3;
+}
+
+#userOnClick div {
+  width: 100%;
+  padding: 0 5px 0 5px;
+}
+
+#userOnClick div:hover {
+  background: #444;
+  cursor: pointer;
+}
+
+.user img:hover {
+  cursor: pointer;
+}
+
+.left .main-btns {
+  margin-top: 20px;
+}
+
+.left .main-btns button {
+  width: 100%;
+  color: #666;
+  padding: 5px;
+  text-align: left;
+  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center; /* Centers vertically */
+  justify-content: flex-start;
+  margin: 5px 0 0 10px;
+  border-radius: 5px;
+}
+
+.left .main-btns button svg,
+.left .main-btns button img {
+  margin-right: 10px;
+}
+
+.left .main-btns button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.left .main-btns button.active {
+  color: #fff;
+}
+
+.log-in-btns {
+  width: 100%;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.log-in-btn,
+.sign-up-btn {
+  margin-top: 15px;
+  width: 40%;
+  color: #fff;
+  border: 0;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.log-in-btn {
+  background: #1e242c;
+}
+
+.sign-up-btn {
+  background: #246bfd;
+}
+
+main {
+  width: 85%;
+  padding: 20px;
+  border-radius: 12px;
+  float: left;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}

@@ -1,0 +1,62 @@
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.buttons button {
+  padding: 7.5px 15px;
+  background: #333;
+  border-radius: 15px;
+}
+
+.buttons button.active {
+  background-color: #007bff;
+}
+
+.buttons button:not(.active):hover {
+  background-color: #0056b3;
+}
+
+.main-content {
+  margin-top: 25px;
+}
+
+.header {
+  margin-bottom: 5px;
+}
+
+.input {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 150px;
+  padding: 5px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #222;
+  color: #fff;
+}
+
+.updateBtn {
+  padding: 10px;
+  background-color: #0056b3;
+  border-radius: 16px;
+}
+.updateBtn:hover {
+  background-color: #007bff;
+}
+.deleteBtn {
+  background-color: darkred;
+}
+.deleteBtn:hover {
+  background-color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+  outline: none;
+}

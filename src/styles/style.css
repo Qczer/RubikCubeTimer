@@ -1,0 +1,550 @@
+:root {
+  --red: #e8172c;
+  --orange: #EE6A26;
+  --green: green;
+}
+
+main {
+  width: 85%;
+  height: 100vh;
+  float: left;
+  padding: 10px;
+  user-select: none;
+}
+
+.timer {
+  text-align: center;
+  height: 62vh;
+}
+
+.relative {
+  position: relative;
+}
+
+#scrambleEl {
+  font-size: 2rem;
+}
+
+#timerEl {
+  font-size: 16rem;
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.selectDiv {
+  height: 3vh;
+  display: flex;
+  gap: 10px;
+}
+
+.selectDiv > div:not(.commonActionsDiv) {
+  position: relative;
+}
+
+#commonActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#commonActions img {
+  width: 20px;
+  height: 20px;
+}
+
+.addSession > div {
+  text-align: left;
+}
+
+.addSession .wrapper {
+  width: fit-content;
+  margin: auto;
+}
+
+.addSession .header {
+  margin-bottom: 5px;
+}
+
+.addSession #createSessionBtn {
+  margin-top: 15px;
+  padding: 7.5px 15px;
+  background: #333;
+  border-radius: 15px;
+  background-color: #0056b3;
+}
+
+.addSession #createSessionBtn:hover {
+  background-color: #007bff;
+}
+
+#cubeType,
+#cubeTypeSelect,
+#session,
+#sessionSelect,
+#commonActions,
+#commonActionsSelect {
+  width: fit-content;
+  appearance: none;
+  background-color: #222;
+  border: none;
+  padding: 5px;
+  font-size: inherit;
+  cursor: pointer;
+  min-width: 40px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#cubeTypeSelect, #sessionSelect, #commonActionsSelect {
+  max-height: 300px;
+  display: none;
+  position: absolute;
+  top: 40px;
+  overflow-y: scroll;
+  z-index: 2;
+}
+
+#cubeTypeSelect button, #sessionSelect button, #commonActionsSelect button {
+  font-size: 1rem;
+  padding: 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  width: 100%;
+  text-align: left;
+}
+
+#cubeTypeSelect button:hover:not(.disabled), #sessionSelect button:hover:not(.disabled), #commonActionsSelect button:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#cubeTypeSelect button.disabled, #sessionSelect button.disabled, #commonActionsSelect button.disabled {
+  color: #999;
+  cursor: default;
+}
+
+#cubeTypeSelect::-webkit-scrollbar, #sessionSelect::-webkit-scrollbar, #commonActionsSelect::-webkit-scrollbar {
+  width: 10px;
+}
+
+#commonActionsSelect {
+  pointer-events: auto;
+  white-space: nowrap;
+  right: 0px;
+}
+
+.commonActionsDiv {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+}
+
+.timerLayout {
+  background: #191919;
+  border-radius: 16px;
+  height: 33vh;
+  width: 100%;
+  display: flex;
+}
+
+.solves {
+  width: 33.3%;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.stats {
+  width: 33.3%;
+  border: 5px solid #222;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.stats div {
+  width: 50%;
+  float: left;
+  padding: 1%;
+  height: 50%; /* Ensure both column divs take full height */
+}
+
+.stats div div {
+  background: #222;
+  float: left;
+  width: 100%;
+  height: calc(50% - 2%); /* Adjust height to fit with margin */
+  border-radius: 10px;
+  position: relative;
+  font-size: 0.8rem;
+}
+
+.stats div div:first-child {
+  margin-bottom: 4%; /* Adjust this if overlap persists */
+}
+
+.stats div:first-child div {
+  height: 100%; /* Ensure the first column div fully occupies its space */
+}
+
+.stats div div p {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.stats div div span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.statsScramble {
+  width: 33.3%;
+  padding: 15px;
+  position: relative;
+}
+
+.statsScramble .twistyPlayerDiv {
+  width: 100%;
+  height: 100%;
+}
+
+.statsScramble button {
+  opacity: 0;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 5;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 5px;
+  background: #246bfd;
+}
+
+.statsScramble:hover button {
+  opacity: 1;
+}
+.statsScramble button:hover {
+  background: #003ccc;
+}
+
+.statsScramble twisty-player {
+  width: 100%;
+  height: 100%;
+}
+
+.controls-auto {
+  background-color: var(--green);
+}
+
+.history-solve-row {
+  display: flex;
+  line-height: 30px;
+  position: relative;
+}
+
+.solve-index {
+  width: 40px;
+}
+
+.solve-time {
+  width: 150px;
+}
+
+.solve-time span {
+  color: var(--green);
+  position: relative;
+}
+
+.solve-time:hover {
+  cursor: pointer;
+}
+
+.plusTwo {
+  color: var(--orange);
+}
+
+.plusTwo span {
+  color: var(--orange);
+}
+
+.DNF {
+  color: var(--red);
+}
+
+.DNF span {
+  color: var(--red);
+}
+
+
+.solve-time:hover .solveTimeSpan::after {
+  content: "";
+  width: 100%;
+  height: 0.1em;
+  background: var(--green);
+  border-radius: 5px;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+}
+
+.solve-time.plusTwo:hover .solveTimeSpan::after {
+  background: var(--orange);
+}
+
+.solve-time.DNF:hover .solveTimeSpan::after {
+  background: var(--red);
+}
+
+.hoverUnderline:hover {
+  cursor: pointer;
+}
+
+.hoverUnderline:hover::after {
+  content: "";
+  width: 100%;
+  height: 0.1em;
+  background: white;
+  border-radius: 5px;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+}
+
+.hoverUnderline.plusTwo:hover::after {
+  background: var(--orange);
+}
+
+.hoverUnderline.DNF:hover::after {
+  background: var(--red);
+}
+
+.solve-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+}
+
+.solve-actions button {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.solve-actions img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.solve-actions button:nth-child(1) {
+  color: #777;
+}
+
+.solve-actions button:nth-child(1):not(.active):hover {
+  color: #fff;
+}
+
+.solve-actions button:nth-child(1).active {
+  color: var(--orange);
+}
+
+.solve-actions button:nth-child(2) {
+  color: #777;
+}
+
+.solve-actions button:nth-child(2).active {
+  color: var(--red);
+}
+
+.solve-actions button:nth-child(2):not(.active):hover {
+  color: #fff;
+}
+
+.solve-actions button:last-child {
+  opacity: 0.5;
+}
+
+.solve-actions button:last-child:hover {
+  opacity: 1;
+}
+
+.solve-actions button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.buttons {
+  margin: auto;
+  width: fit-content;
+  display: inline-flex;
+}
+
+.buttons button {
+  padding: 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+.buttons button:not(.active) {
+  background: transparent;
+}
+
+.buttons button.active {
+  background: white !important;
+}
+
+.buttons button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.buttons button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.buttons button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.buttons button svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hiddenOverride {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
+
+.override {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.override > div {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 35%;
+  text-align: center;
+  position: relative;
+  display: none;
+}
+
+.override div .solveInfoTop {
+  width: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.solveInfoTop button {
+  margin-right: 5px;
+}
+
+.solveInfoTop button:nth-last-child(1) {
+  margin-right: 20px;
+}
+
+.override .solveInfoBody h1 {
+  font-size: 4rem;
+}
+
+
+.override .userInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.solveInfoButtons {
+  margin: auto;
+  width: fit-content;
+  display: inline-flex;
+}
+
+.solveInfoButtons button {
+  margin: 2px;
+}
+
+.solveInfoEndTimestampDiv {
+  margin: 15px 0 15px 0;
+}
+
+#solveInfoEndTimestamp {
+  color: #999;
+}
+
+#solveInfoScramble {
+  font-weight: 600;
+}
+
+.override #showSolve button {
+  padding: 5px 10px;
+}
+.override #showSolve button:not(.closeButton) {
+  background: #111;
+  border-radius: 5px;
+}
+
+#solveScrambleVisualization twisty-player {
+  margin: auto;
+}
+
+#avgSolves {
+  margin-top: 10px;
+  overflow-y: auto;
+  max-height: 450px;
+}
+
+.main-info {
+  text-align: center;
+}
+
+input[type="text"] {
+  background-color: #333344;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.closeButton:hover  {
+  opacity: 1;
+}
+
+.closeButton  {
+  opacity: 0.5;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}

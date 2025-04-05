@@ -1,0 +1,337 @@
+main {
+  float: left;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+  width: 85%;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+main > div {
+  width: 45%;
+  margin: auto;
+}
+
+#solvesText {
+  text-align: start;
+  font-size: 2em;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  font-size: 0.8rem;
+  position: relative;
+  align-items: center;
+  padding: 5px;
+  user-select: none;
+}
+
+.solve button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.bulkSolve {
+  width: 100%;
+  height: 100px;
+  background: #222;
+  margin-bottom: 15px;
+  border-radius: 16px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+label {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.solve {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.paggination {
+  color: #fff;
+  border: none;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+}
+
+.paggination button {
+  background: #222;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.filter {
+  width: fit-content;
+  appearance: none;
+  background-color: #222;
+  border: none;
+  font-size: inherit;
+  cursor: pointer;
+  min-width: 40px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#filter-menu, #sort-menu {
+  white-space: nowrap;
+}
+
+.menu {
+  position: absolute;
+  background-color: #333;
+  max-height: 300px;
+  top: 40px;
+  left: 0;
+  overflow-y: scroll;
+  z-index: 2;
+}
+
+.menu div {
+  padding: 7.5px;
+}
+
+.menu div button {
+  width: 100%;
+  height: 100%;
+}
+
+.solvesCounter {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  font-size: 1em;
+  color: #ccc;
+  transform: translate(0, -50%);
+
+}
+button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.bulk-actions {
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  padding: 10px;
+  margin: 10px auto;
+}
+
+.top {
+  min-width: fit-content;
+}
+
+.bulk-actions p {
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.bulk-actions button {
+  background-color: #333;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+}
+
+
+
+.bulk-actions button:hover, .paggination button:hover, .menu div:not(.disabled):hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.bulkSolveTime {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.menu div.disabled {
+  color: #999;
+}
+.menu div.disabled:hover {
+  cursor: default;
+}
+
+.menu div:not(.disabled):hover, .menu label:hover {
+  cursor: pointer;
+}
+
+#sort-menu div:has(label) {
+  padding: 0;
+}
+
+#sort-menu label {
+  padding: 7.5px;
+}
+
+#sort-menu input[type="checkbox"] {
+  pointer-events: none;
+}
+
+.no-solves {
+  margin: 40px auto;
+  text-align: center;
+}
+
+.no-solves p {
+  font-size: 1.2em;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.relative {
+  position: relative;
+}
+
+.override {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.hiddenOverride {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.override #showSolve {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 35%;
+  text-align: center;
+  position: relative;
+  display: none;
+}
+
+.override #showAvg {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 35%;
+  text-align: center;
+  position: relative;
+  display: none;
+}
+
+.override div .solveInfoTop {
+  width: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.solveInfoTop button {
+  margin-right: 5px;
+}
+
+.solveInfoTop button:nth-last-child(1) {
+  margin-right: 20px;
+}
+
+.override .solveInfoBody h1 {
+  font-size: 4rem;
+}
+
+
+.override .userInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.solveInfoButtons {
+  margin: auto;
+  width: fit-content;
+  display: inline-flex;
+}
+
+.solveInfoButtons button {
+  margin: 2px;
+}
+
+.solveInfoEndTimestampDiv {
+  margin: 15px 0 15px 0;
+}
+
+#solveInfoEndTimestamp {
+  color: #999;
+}
+
+#solveInfoScramble {
+  font-weight: 600;
+}
+
+.override #showSolve button {
+  padding: 5px 10px;
+}
+.override #showSolve button:not(.closeButton) {
+  background: #111;
+  border-radius: 5px;
+}
+
+#solveScrambleVisualization twisty-player {
+  margin: auto;
+}
+
+#avgSolves {
+  margin-top: 10px;
+  overflow-y: auto;
+  max-height: 450px;
+}
+
+.main-info {
+  text-align: center;
+}
+
+.closeButton:hover  {
+  opacity: 1;
+}
+
+.closeButton  {
+  opacity: 0.5;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}

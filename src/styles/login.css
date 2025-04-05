@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+    transition: 0.3s;
+    color: #fff;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background: #121212;
+  }
+  
+  .container {
+    background: #1e1e1e;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    text-align: left;
+  }
+
+  .container .inputName {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  
+  h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  #passwordDiv {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  #password {
+    padding-right: 40px;
+  }
+
+  #togglePassword {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+
+  #togglePassword:hover {
+    opacity: 0.7;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background-color: #222;
+    color: #fff;
+  }
+
+  /* Podpowiedź do hasła */
+  .rules {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Niebieski przycisk */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  a {
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }

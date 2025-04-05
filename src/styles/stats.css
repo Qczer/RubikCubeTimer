@@ -1,0 +1,528 @@
+.override {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.override #showSolve {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 35%;
+  text-align: center;
+  position: relative;
+  display: none;
+}
+
+.override #showAvg {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 35%;
+  text-align: center;
+  position: relative;
+  display: none;
+}
+
+.override div .solveInfoTop {
+  width: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.solveInfoTop button {
+  margin-right: 5px;
+}
+
+.solveInfoTop button:nth-last-child(1) {
+  margin-right: 20px;
+}
+
+.override .solveInfoBody h1 {
+  font-size: 4rem;
+}
+
+
+.override .userInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.solveInfoButtons {
+  margin: auto;
+  width: fit-content;
+  display: inline-flex;
+}
+
+.solveInfoButtons button {
+  margin: 2px;
+}
+
+.solveInfoEndTimestampDiv {
+  margin: 15px 0 15px 0;
+}
+
+#solveInfoEndTimestamp {
+  color: #999;
+}
+
+#solveInfoScramble {
+  font-weight: 600;
+}
+
+.override #showSolve button {
+  padding: 5px 10px;
+}
+.override #showSolve button:not(.closeButton) {
+  background: #111;
+  border-radius: 5px;
+}
+
+#solveScrambleVisualization twisty-player {
+  margin: auto;
+}
+
+#avgSolves {
+  margin-top: 10px;
+  overflow-y: auto;
+  max-height: 450px;
+}
+
+.main-info {
+  text-align: center;
+}
+
+.closeButton:hover  {
+  opacity: 1;
+}
+
+.closeButton  {
+  opacity: 0.5;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-weight: 600;
+}
+
+/* Filtr */
+.filter {
+  text-align: center;
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.filter button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background: #222;
+}
+
+.filter button.active {
+  background-color: #007bff;
+}
+
+.filter button:not(.active):hover {
+  background-color: #0056b3;
+}
+
+/* Układ dwukolumnowy dla metryk i event distribution */
+.stats-layout {
+  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Lewa kolumna – Grid z 4 kartami */
+.overview-cards {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  margin-top: 50px;
+}
+
+/* Stylizacja kart */
+.card {
+  background-color: #1e1e1e;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+}
+
+.card:not(.event) h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.card > div {
+  font-weight: 700;
+}
+
+.card .stat-value {
+  font-size: 32px;
+  margin-left: 5px;
+}
+
+/* Karta Event Distribution – umieszczona w prawej kolumnie */
+.card.event {
+  flex: 1;
+  width: 100%;
+  height: 30vh;
+  background: #1e1e1e;
+}
+
+.card.event .container {
+  display: flex;
+  width: 100%;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+}
+
+.event h2 {
+  margin-bottom: 10px;
+}
+
+.event .chart-placeholder {
+  height: 200px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888888;
+}
+
+.consistency {
+  background: #1e1e1e;
+  position: relative;
+  height: 25vh;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.consistency .cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  height: 100%;
+}
+
+.consistency .card {
+  background: rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.consistency .card div:first-child {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
+.consistency .card div:nth-child(2) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.event-layout {
+  display: none;
+  width: 100%;
+  height: 80vh;
+}
+
+.averages {
+  padding: 7.5px;
+  line-height: 100%;
+}
+
+.averages .card {
+  width: 100%;
+  height: 100%;
+}
+
+.avg {
+  display: flex;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.avg:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.avg span {
+  color: rgb(84, 172, 228);
+  backdrop-filter: blur(5px);
+  font-weight: 800;
+}
+
+.avg button {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translate(0, -50%);
+  color: rgb(65, 176, 88);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.event-layout .overview, .event-layout .averages {
+  width: 50%;
+  display: flex;
+  height: 30vh;
+}
+
+.section {
+  position: relative;
+}
+
+.mt50 {
+  margin-top: 50px;
+}
+
+.section-header {
+  position: absolute;
+  top: -30px;
+  left: 10px;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.event-layout .overview .half {
+  width: 50%;
+  height: 100%;
+  padding: 10px;
+}
+
+.event-layout .overview .half .card {
+  margin-bottom: 10px;
+}
+
+.event-layout .overview .card {
+  width: 100%;
+  height: 50%;
+  position: relative;
+}
+
+.event-layout .overview .card span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+#timeSpentCubing {
+  color: rgb(35, 197, 134);
+}
+
+#totalSolves {
+  color: rgb(84, 172, 228);
+}
+
+#numberOfEvents,
+#topEvent {
+  color: rgb(109, 125, 144);
+}
+
+#donutChartNoData {
+  display: none;
+}
+
+.history-solve-row {
+  display: flex;
+  line-height: 30px;
+  position: relative;
+}
+
+.solve-index {
+  width: 40px;
+}
+
+.solve-time {
+  width: 150px;
+}
+
+.solve-time span {
+  color: green;
+  position: relative;
+}
+
+.solve-time:hover {
+  cursor: pointer;
+}
+
+.plusTwo {
+  color: #EE6A26;
+}
+
+.plusTwo span {
+  color: #EE6A26;
+}
+
+.DNF {
+  color: red;
+}
+
+.DNF span {
+  color: red;
+}
+
+
+.solve-time:hover .solveTimeSpan::after {
+  content: "";
+  width: 100%;
+  height: 0.1em;
+  background: green;
+  border-radius: 5px;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+}
+
+.solve-time.plusTwo:hover .solveTimeSpan::after {
+  background: #EE6A26;
+}
+
+.solve-time.DNF:hover .solveTimeSpan::after {
+  background: red;
+}
+
+.solve-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+}
+
+.solve-actions button {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.solve-actions img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.solve-actions button:nth-child(1) {
+  color: #777;
+}
+
+.solve-actions button:nth-child(1):not(.active):hover {
+  color: #fff;
+}
+
+.solve-actions button:nth-child(1).active {
+  color: #EE6A26;
+}
+
+.solve-actions button:nth-child(2) {
+  color: #777;
+}
+
+.solve-actions button:nth-child(2).active {
+  color: red;
+}
+
+.solve-actions button:nth-child(2):not(.active):hover {
+  color: #fff;
+}
+
+.solve-actions button:last-child {
+  opacity: 0.5;
+}
+
+.solve-actions button:last-child:hover {
+  opacity: 1;
+}
+
+.solve-actions button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.hoverUnderline {
+  position: relative;
+}
+
+.hoverUnderline:hover {
+  cursor: pointer;
+}
+
+.hoverUnderline:hover::after {
+  content: "";
+  width: 100%;
+  height: 0.1em;
+  border-radius: 5px;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  background-color: white;
+}
+
+.averages button.hoverUnderline:hover::after {
+  background: rgb(65, 176, 88);
+}
+
+.singlePB.hoverUnderline:hover::after {
+  background: rgb(35, 197, 134);
+}
+
+#singlePBDateDiv {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+}
+
+.color {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.color span {
+  text-shadow: black 0px 0px 10px;
+}
+
+.relative {
+  position: relative;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}

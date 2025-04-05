@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/Rubic.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/styles/login.css">
+    <script type="module" src="src/js/signup.js" defer></script>
+    <script type="module" src="src/server.js" defer></script>
+  </head>
+  <body>
+    <div class="signup-popup">
+      <div class="container">
+        <h1 style="text-align: center">Rubik Cube Timer</h1>
+        <br />
+        <div>Username</div>
+        <div class="inputName">
+          <input type="text" id="username" />
+        </div>
+        <div class="inputName">E-mail (optional)</div>
+        <div>
+          <input type="text" id="email" />
+        </div>
+        <div class="inputName">Password</div>
+        <div id="passwordDiv">
+          <input type="password" id="password" />
+          <img src="eye-hide.svg" alt="hide password" id="togglePassword">
+        </div>
+        <div class="rules">
+          <span id="message"></span>
+        </div>
+        <div>
+          <button id="signUpBtn">Sign up</button>
+        </div>
+
+        <br />
+        Already have an account?
+        <a
+          href="login.html" style="color: #74747a"
+          >Log in</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

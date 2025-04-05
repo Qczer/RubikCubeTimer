@@ -1,0 +1,165 @@
+h1 {
+  text-align: left;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+  max-width: 650px;
+  padding-bottom: 10px;
+  border-bottom: 5px solid #222;
+}
+
+.setting label {
+  display: flex;
+  width: fit-content;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-section button {
+  background-color: #2a2a40;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.setting-section button.active {
+  background-color: #4a4ad4;
+}
+
+.label {
+  margin-left: 10px; /* Odstęp między przełącznikiem a tekstem */
+  white-space: nowrap;
+}
+
+.setting input[type="number"],
+.setting select,
+.setting input[type="text"] {
+  background-color: #333344;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.setting input[type="checkbox"] {
+  margin-right: 10px;
+  width: 26px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.slider {
+  width: 60px;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  margin-left: auto;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.buttons {
+  margin: auto;
+  width: fit-content;
+  display: inline-flex;
+}
+
+.buttons button {
+  padding: 5px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: transparent;
+}
+
+.buttons button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.buttons button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.buttons button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.buttons button svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}

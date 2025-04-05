@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/Rubic.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Solves</title>
+    <link rel="stylesheet" href="src/styles/all.css" />
+    <link rel="stylesheet" href="src/styles/solves.css" />
+    <script type="module" src="src/js/solves.js" defer></script>
+    <script type="module" src="src/js/script.js" defer></script>
+  </head>
+  <body>
+    <div class="hiddenOverride hidden"></div>
+    <div class="override">
+      <div id="showSolve">
+        <button class="closeButton"><img src="/close-x-white.svg" alt="" width="20px" style="display: flex;"></button>
+        <div class="top">
+          <div class="solveInfoTop">
+            <button id="solveInfoDeleteBtn">Delete</button>
+            <button id="solveInfoEditBtn">Edit</button>
+          </div>
+        </div>
+        <div class="solveInfoBody">
+          <h1>2.50</h1>
+          <div class="userInfo">
+            <img src="/user-icon.svg" alt="user icon" width="40px">
+            <span class="username">Username</span>
+          </div>
+          <div class="solveInfoButtons">
+            <button id="solveInfoCubeTypeBtn" style="cursor: default;">3x3</button>
+            <button id="solveInfoPlusTwoBtn">+2</button>
+            <button id="solveInfoDNFBtn">DNF</button>
+          </div>
+          <div class="solveInfoEndTimestampDiv">
+            <span id="solveInfoEndTimestamp"></span>
+          </div>
+          <div style="border-top: 2px solid rgba(255, 255, 255, 0.15);">
+            <div id="solveScrambleVisualization" style="margin-top: 10px;"></div>
+            <div style="margin-top: 10px;"><span id="solveInfoScramble"></span></div>
+            <div style="margin-top: 10px;">
+              <button style="display: inline-flex; align-items: center;"  onclick="navigator.clipboard.writeText(document.getElementById('solveInfoScramble').innerText);">Copy Scramble 
+                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" style="fill: white; margin-left: 5px" viewBox="0 0 256 256" id="copyScrambleSvg">
+                  <polyline points="168 168 216 168 216 40 88 40 88 88" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></polyline>
+                  <rect x="40" y="88" width="128" height="128" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></rect>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="showAvg">
+        <button class="closeButton"><img src="/close-x-white.svg" alt="" width="20px" style="display: flex;"></button>
+        <h2 id="currAvg">Current 3x3 Average: <span>4.59</span></h2>
+        <p id="avgDate"></p>
+        <input type="checkbox" id="reverseAvgOrder">
+        <label for="reverseAvgOrder">Reverse Order</label>
+        <div id="avgSolves"></div>
+      </div>
+    </div>
+    <div class="left">
+      <nav>
+        Rubik Cube Timer
+        <div id="user" class="user">
+          <img src="/user-icon.svg" alt="user icon" width="40px" id="userIcon" />
+          <div id="userOnClick">
+            <div id="userAccountBtn">
+              <span>Account</span>
+            </div>
+            <div id="userProfileBtn">
+              <span>Profile</span>
+            </div>
+            <div id="userSettingsBtn">
+              <span>Settings</span>
+            </div>
+            <div id="logoutBtn">
+              <span>Log out</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="main-btns">
+        <!-- Timer Button -->
+        <button onclick="window.location.href = 'index.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <circle
+              cx="128"
+              cy="140"
+              r="88"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></circle>
+            <line
+              x1="128"
+              y1="140"
+              x2="161.9"
+              y2="106.1"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="104"
+              y1="12"
+              x2="152"
+              y2="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+          </svg>
+          Timer
+        </button>
+        <!-- Stats Button -->
+        <button onclick="window.location.href = 'stats.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <circle
+              cx="128"
+              cy="128"
+              r="96"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></circle>
+            <line
+              x1="128"
+              y1="128"
+              x2="128"
+              y2="32"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="211.1"
+              y1="80"
+              x2="44.9"
+              y2="176"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+          </svg>
+          Stats
+        </button>
+        <!-- Solves Button -->
+        <button class="active" onclick="window.location.href = 'solves.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <line
+              x1="88"
+              y1="64"
+              x2="216"
+              y2="64"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="88"
+              y1="128"
+              x2="216"
+              y2="128"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="88"
+              y1="192"
+              x2="216"
+              y2="192"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <circle cx="44" cy="128" r="16"></circle>
+            <circle cx="44" cy="64" r="16"></circle>
+            <circle cx="44" cy="192" r="16"></circle>
+          </svg>
+          Solves
+        </button>
+        <!-- Sessions Button -->
+        <button onclick="window.location.href = 'sessions.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <rect
+              x="40"
+              y="144"
+              width="176"
+              height="56"
+              rx="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></rect>
+            <rect
+              x="40"
+              y="56"
+              width="176"
+              height="56"
+              rx="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></rect>
+          </svg>
+          Sessions
+        </button>
+        <!-- Settings Button -->
+        <button onclick="window.location.href = 'settings.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <path
+              d="M218.9,71a63.9,63.9,0,0,1-89.8,81h0L73,217a24,24,0,0,1-34-34l65-56.1h0a63.9,63.9,0,0,1,81-89.8L143,79l5.7,28.3L177,113Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></path>
+          </svg>
+          Settings
+        </button>
+      </div>
+      <div class="log-in-btns" id="log-in-btns">
+        <button class="log-in-btn" onclick="location.href='login.html'">
+          Log in
+        </button>
+        <button class="sign-up-btn" onclick="location.href='signup.html'">
+          Sign up
+        </button>
+      </div>
+    </div>
+    <main>
+      <h1 id="solvesText">Solves</h1>
+      <div class="top">
+        <div class="actions">
+          <div class="filter relative" id="cubetype">
+            <div id="open-cubetype-menu" style="padding: 5px 10px;">3x3</div>
+            <div id="cubetype-menu" class="menu hidden">
+              <div>2x2</div>
+              <div class="disabled">3x3</div>
+              <div>4x4</div>
+              <div>5x5</div>
+              <div>6x6</div>
+              <div>7x7</div>
+              <div>Square-1</div>
+              <div>Clock</div>
+              <div>Skewb</div>
+              <div>Megaminx</div>
+              <div>Pyraminx</div>
+              <div>3x3 Blind</div>
+              <div>3x3 One Handed</div>
+            </div>
+          </div>
+          <div class="filter relative" id="filter">
+            <div id="open-filter-menu" style="padding: 5px 10px;">Filter</div>
+            <div id="filter-menu" class="menu hidden">
+              <div>+2 Only</div>
+              <div>No +2s</div>
+              <div>DNF only</div>
+              <div>No DNFs</div>
+            </div>
+          </div>
+          <div class="filter relative" id="sort">
+            <div id="open-sort-menu" style="padding: 5px 10px;">Sort</div>
+            <div id="sort-menu" class="menu hidden">
+              <div class="option">
+                <label> <input type="checkbox" id="sort-date" checked /> Date </label>
+              </div>
+              <div class="option">
+                <label> <input type="checkbox" id="sort-time" /> Time </label>
+              </div>
+              <div class="option" value="false">
+                <label> <input type="checkbox" id="reverse-order" /> Reverse Order </label>  
+              </div>
+            </div>
+          </div>
+          <div class="solvesCounter"><span class="solves-count">0</span> solves</div>
+        </div>
+        <div class="bulk-actions">
+          <p>Bulk action on <span class="solves-count">0</span> solves</p>
+          <div>
+            <button id="bulkDelete">Delete</button>
+            <button id="bulkChangeSession">Change Session</button>
+            <button id="bulkPlusTwo">Mark +2</button>
+            <button id="bulkDNF">Mark DNF</button>
+            <button id="bulkOK">Mark OK</button>
+          </div>
+        </div>
+      </div>
+      <div id="solves-list">
+        <p>Could not find any solves</p>
+      </div>
+      <div class="paggination">
+        <button id="prev-page">Prev</button>
+        <div id="page-info">Page <span>1</span> of <span>1</span></div>
+        <button id="next-page">Next</button>
+      </div>
+    </main>
+  </body>
+</html>

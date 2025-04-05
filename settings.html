@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/Rubic.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rubik Cube Timer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/all.css">
+    <link rel="stylesheet" href="src/styles/settings.css" />
+    <script type="module" src="src/js/settings.js" defer></script>
+    <script type="module" src="src/server.js" defer></script>
+    <script type="module" src="src/js/script.js"></script>
+  </head>
+
+  <body>
+    <div class="left">
+      <nav>
+        Rubik Cube Timer
+        <div id="user" class="user">
+          <img
+            src="/user-icon.svg"
+            alt="user icon"
+            width="40px"
+            id="userIcon"
+          />
+          <div id="userOnClick">
+            <div id="userAccountBtn">
+              <span>Account</span>
+            </div>
+            <div id="userProfileBtn">
+              <span>Profile</span>
+            </div>
+            <div id="userSettingsBtn">
+              <span>Settings</span>
+            </div>
+            <div id="logoutBtn">
+              <span>Log out</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="main-btns">
+        <!-- Timer Button -->
+        <button onclick="window.location.href = 'index.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <circle
+              cx="128"
+              cy="140"
+              r="88"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></circle>
+            <line
+              x1="128"
+              y1="140"
+              x2="161.9"
+              y2="106.1"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="104"
+              y1="12"
+              x2="152"
+              y2="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+          </svg>
+          Timer
+        </button>
+
+        <!-- Stats Button -->
+        <button onclick="window.location.href = 'stats.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <circle
+              cx="128"
+              cy="128"
+              r="96"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></circle>
+            <line
+              x1="128"
+              y1="128"
+              x2="128"
+              y2="32"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="211.1"
+              y1="80"
+              x2="44.9"
+              y2="176"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+          </svg>
+          Stats
+        </button>
+
+        <!-- Solves Button -->
+        <button onclick="window.location.href = 'solves.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <line
+              x1="88"
+              y1="64"
+              x2="216"
+              y2="64"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="88"
+              y1="128"
+              x2="216"
+              y2="128"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="88"
+              y1="192"
+              x2="216"
+              y2="192"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <circle cx="44" cy="128" r="16"></circle>
+            <circle cx="44" cy="64" r="16"></circle>
+            <circle cx="44" cy="192" r="16"></circle>
+          </svg>
+          Solves
+        </button>
+
+        <!-- Sessions Button -->
+        <button onclick="window.location.href = 'sessions.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <rect
+              x="40"
+              y="144"
+              width="176"
+              height="56"
+              rx="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></rect>
+            <rect
+              x="40"
+              y="56"
+              width="176"
+              height="56"
+              rx="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></rect>
+          </svg>
+          Sessions
+        </button>
+
+        <!-- Settings Button -->
+        <button
+          class="active"
+          onclick="window.location.href = 'settings.html';"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <path
+              d="M218.9,71a63.9,63.9,0,0,1-89.8,81h0L73,217a24,24,0,0,1-34-34l65-56.1h0a63.9,63.9,0,0,1,81-89.8L143,79l5.7,28.3L177,113Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></path>
+          </svg>
+          Settings
+        </button>
+      </div>
+
+      <div class="log-in-btns" id="log-in-btns">
+        <button class="log-in-btn" onclick="location.href='login.html'">
+          Log in
+        </button>
+        <button class="sign-up-btn" onclick="location.href='signup.html'">
+          Sign up
+        </button>
+      </div>
+    </div>
+    <main>
+      <h1>Timer Settings</h1>
+      <div class="settings-section">
+        <!--Decimal Points-->
+        <div class="setting">
+          Timer decimal points
+          <select id="decimalPoints">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <!--Freeze Time-->
+        <div class="setting">
+          Freeze time (s)
+          <input type="number" id="freezeTime" min="0" max="10" value="0.5" step="0.1"/>
+        </div>
+
+        <!--Hide While Solving-->
+        <div class="setting">
+          Hide While Solving
+          <div class="switch">
+            <input type="checkbox" id="hideWhileSolving" />
+            <span class="slider round" value="hideWhileSolving"></span>
+          </div>
+        </div>
+
+        <!--Confirm Delete-->
+        <div class="setting">
+          Confirm before deleting time
+          <div class="switch">
+            <input type="checkbox" id="confirmDelete" />
+            <span class="slider round" value="confirmDelete"></span>
+          </div>
+        </div>
+
+        <!--Personal Best Confetti-->
+
+        <div class="setting">
+          Confetti at the new record
+          <div class="switch">
+            <input type="checkbox" id="personalBestConfetti" checked />
+            <span class="slider round" value="personalBestConfetti"></span>
+          </div>
+        </div>
+
+        <!--Inspection-->
+        <div class="setting">
+          Enable inspection
+          <div class="switch">
+            <input type="checkbox" id="enableInspection" />
+            <span class="slider round" value="enableInspection"></span>
+          </div>
+        </div>
+
+        <div class="setting">
+          Inspection time (s)
+          <input type="number" id="inspectionTime" min="0" value="15" step="1"/>
+        </div>
+
+        <div class="setting">
+          Inspection auto start
+          <div class="switch">
+            <input type="checkbox" id="inspectionAutoStartTimer" />
+            <span class="slider round" value="inspectionAutoStartTimer"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

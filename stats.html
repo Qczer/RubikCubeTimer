@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/Rubic.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Rubik Cube Timer - Stats</title>
+    <link rel="stylesheet" href="src/styles/all.css" />
+    <link rel="stylesheet" href="src/styles/stats.css" />
+    <script type="module" src="src/js/script.js" defer></script>
+    <script type="module" src="src/js/stats.js" defer></script>
+  </head>
+  <body>
+    <div class="override">
+      <div id="showSolve">
+        <button class="closeButton"><img src="/close-x-white.svg" alt="" width="20px" style="display: flex;"></button>
+        <div class="top">
+          <div class="solveInfoTop">
+            <button id="solveInfoDeleteBtn">Delete</button>
+            <button id="solveInfoEditBtn">Edit</button>
+          </div>
+        </div>
+        <div class="solveInfoBody">
+          <h1>2.50</h1>
+          <div class="userInfo">
+            <img src="/user-icon.svg" alt="user icon" width="40px">
+            <span class="username">Username</span>
+          </div>
+          <div class="solveInfoButtons">
+            <button id="solveInfoCubeTypeBtn" style="cursor: default;">3x3</button>
+            <button id="solveInfoPlusTwoBtn">+2</button>
+            <button id="solveInfoDNFBtn">DNF</button>
+          </div>
+          <div class="solveInfoEndTimestampDiv">
+            <span id="solveInfoEndTimestamp"></span>
+          </div>
+          <div style="border-top: 2px solid rgba(255, 255, 255, 0.15);">
+            <div id="solveScrambleVisualization" style="margin-top: 10px;"></div>
+            <div style="margin-top: 10px;"><span id="solveInfoScramble"></span></div>
+            <div style="margin-top: 10px;">
+              <button style="display: inline-flex; align-items: center;"  onclick="navigator.clipboard.writeText(document.getElementById('solveInfoScramble').innerText);">Copy Scramble 
+                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" style="fill: white; margin-left: 5px" viewBox="0 0 256 256" id="copyScrambleSvg">
+                  <polyline points="168 168 216 168 216 40 88 40 88 88" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></polyline>
+                  <rect x="40" y="88" width="128" height="128" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></rect>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="showAvg">
+        <button class="closeButton"><img src="/close-x-white.svg" alt="" width="20px" style="display: flex;"></button>
+        <h2 id="currAvg">Current 3x3 Average: <span>4.59</span></h2>
+        <p id="avgDate"></p>
+        <input type="checkbox" id="reverseAvgOrder">
+        <label for="reverseAvgOrder">Reverse Order</label>
+        <div id="avgSolves"></div>
+      </div>
+    </div>
+    <!-- Lewy panel nawigacyjny -->
+    <div class="left">
+      <nav>
+        Rubik Cube Timer
+        <div id="user" class="user">
+          <img
+            src="/user-icon.svg"
+            alt="user icon"
+            width="40px"
+            id="userIcon"
+          />
+          <div id="userOnClick">
+            <div id="userAccountBtn">
+              <span>Account</span>
+            </div>
+            <div id="userProfileBtn">
+              <span>Profile</span>
+            </div>
+            <div id="userSettingsBtn">
+              <span>Settings</span>
+            </div>
+            <div id="logoutBtn">
+              <span>Log out</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="main-btns">
+        <!-- Timer Button -->
+        <button onclick="window.location.href = 'index.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <circle
+              cx="128"
+              cy="140"
+              r="88"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></circle>
+            <line
+              x1="128"
+              y1="140"
+              x2="161.9"
+              y2="106.1"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="104"
+              y1="12"
+              x2="152"
+              y2="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+          </svg>
+          Timer
+        </button>
+
+        <!-- Stats Button -->
+        <button class="active" onclick="window.location.href = 'stats.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <circle
+              cx="128"
+              cy="128"
+              r="96"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></circle>
+            <line
+              x1="128"
+              y1="128"
+              x2="128"
+              y2="32"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="211.1"
+              y1="80"
+              x2="44.9"
+              y2="176"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+          </svg>
+          Stats
+        </button>
+
+        <!-- Solves Button -->
+        <button onclick="window.location.href = 'solves.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <line
+              x1="88"
+              y1="64"
+              x2="216"
+              y2="64"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="88"
+              y1="128"
+              x2="216"
+              y2="128"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <line
+              x1="88"
+              y1="192"
+              x2="216"
+              y2="192"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></line>
+            <circle cx="44" cy="128" r="16"></circle>
+            <circle cx="44" cy="64" r="16"></circle>
+            <circle cx="44" cy="192" r="16"></circle>
+          </svg>
+          Solves
+        </button>
+
+        <!-- Sessions Button -->
+        <button onclick="window.location.href = 'sessions.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <rect
+              x="40"
+              y="144"
+              width="176"
+              height="56"
+              rx="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></rect>
+            <rect
+              x="40"
+              y="56"
+              width="176"
+              height="56"
+              rx="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></rect>
+          </svg>
+          Sessions
+        </button>
+
+        <!-- Settings Button -->
+        <button onclick="window.location.href = 'settings.html';">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <path
+              d="M218.9,71a63.9,63.9,0,0,1-89.8,81h0L73,217a24,24,0,0,1-34-34l65-56.1h0a63.9,63.9,0,0,1,81-89.8L143,79l5.7,28.3L177,113Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="24"
+            ></path>
+          </svg>
+          Settings
+        </button>
+      </div>
+
+      <div class="log-in-btns" id="log-in-btns">
+        <button class="log-in-btn" onclick="location.href='login.html'">Log in</button>
+        <button class="sign-up-btn" onclick="location.href='signup.html'">Sign up</button>
+      </div>
+    </div>
+    <!-- Koniec lewego panelu -->
+
+    <!-- Główna zawartość strony -->
+    <main>
+      <div class="header">
+        <h1>Stats</h1>
+      </div>
+
+      <div class="filter">
+        <button class="active" id="All">All</button>
+      </div>
+
+      <!-- Kontener ustawiony jako layout dwukolumnowy -->
+      <div class="stats-layout">
+        <!-- Lewa kolumna z czterema kartami -->
+        <div class="overview-cards section mt50">
+          <h2 class="section-header" style="top: -35px;">Overview</h2>
+          <div class="card">
+            <h2>Time Spent Cubing</h2>
+            <div class="stat-value" id="timeSpentCubing">0.00</div>
+          </div>
+          <div class="card">
+            <h2>Total Solves</h2>
+            <div class="stat-value" id="totalSolves">0</div>
+          </div>
+          <div class="card">
+            <h2>Number of Events</h2>
+            <div class="stat-value" id="numberOfEvents">0</div>
+          </div>
+          <div class="card">
+            <h2>Top Event</h2>
+            <div class="stat-value" id="topEvent">-</div>
+          </div>
+        </div>
+        <!-- Prawa kolumna z Event Distribution -->
+        <div class="card event section mt50">
+          <h2 class="section-header" style="top: -35px;">Event Distribution</h2>
+          <div class="container">
+            <div class="chart-placeholder" id="donutChartNoData">No Data</div>
+            <svg id="donutChart" width="275" height="275" viewBox="0 0 300 300"></svg>
+            <div id="chart-legend"></div>
+          </div>
+        </div>
+        <div class="consistency section">
+          <h2 class="section-header" style="top: -35px;">More stats</h2>
+          <div class="cards">
+            <div class="card">
+              <div>DNFs</div>
+              <div id="DNFs">-</div>
+            </div>
+            <div class="card">
+              <div>+2s</div>
+              <div id="totalPlusTwos">-</div>
+            </div>
+            <div class="card">
+            </div>
+            <div class="card">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="event-layout">
+        <div class="overview section mt50">
+          <h2 class="section-header">Overview</h2>
+          <div class="half">
+            <div class="card relative" style="height: calc(100% + 10px);">
+              <div>
+                Single PB
+              </div>
+              <span id="singlePB" class="singlePB hoverUnderline" style="color: rgb(35, 197, 134)">-</span>
+              <div id="singlePBDateDiv">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><rect x="40" y="40" width="176" height="176" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></rect><line x1="176" y1="24" x2="176" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><line x1="80" y1="24" x2="80" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><line x1="40" y1="88" x2="216" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line></svg>
+                <kbd id="singlePBDate"></kbd>
+              </div>
+            </div>
+          </div>
+          <div class="half">
+            <div class="card">
+              <div>
+                Total Solves
+              </div>
+              <span id="typeTotalSolves" style="color: rgb(84, 172, 228)">-</span>
+            </div>
+            <div class="card">
+              <div>Time Spent Cubing</div>
+              <span id="typeTimeSpentCubing" style="color: rgb(109, 125, 144)">-</span>
+            </div>
+          </div>
+        </div>
+        <div class="averages section mt50">
+          <h2 class="section-header">Averages</h2>
+          <div class="card">
+            <div class="avg"><p>Average of <span> 50 </span></p> <button value="50">-</button></div>
+            <div class="avg"><p>Average of <span> 100 </span></p> <button value="100">-</button></div>
+            <div class="avg"><p>Average of <span> 500 </span></p> <button value="500">-</button></div>
+            <div class="avg"><p>Average of <span> 1000 </span></p> <button value="1000">-</button></div>
+            <div class="avg"><p>Average of <span> 2000 </span></p> <button value="2000">-</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Koniec głównej zawartości -->
+  </body>
+</html>
