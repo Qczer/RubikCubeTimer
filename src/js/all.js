@@ -168,8 +168,7 @@ export function DNF(solve, array) {
 }
 
 export function deleteTime(solve, array) {
-  const solveToDelete = array.find(el => el.solveTime == solve.solveTime && el.scramble == solve.scramble);
-  const solveIndex = array.indexOf(solveToDelete);
+  const solveIndex = array.indexOf(solve);
 
   if(settings.confirmDelete && !confirm("Do you want to delete this solve?"))
     return;
@@ -179,7 +178,7 @@ export function deleteTime(solve, array) {
     
   if(document.querySelector('.solves'))
     document.querySelector('.solves').innerHTML = '';
-  if(document.querySelector('.stats'))
+  if(document.querySelector('.stats') && window.location.path == '/stats')
     document.querySelector('.stats').innerHTML = '';
   array.splice(solveIndex, 1);
   array.forEach(solve => addSolveToList(solve, array))
@@ -189,7 +188,7 @@ export function deleteTime(solve, array) {
   fetch(`http://localhost:3001/deleteSolve`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(solveToDelete)
+    body: JSON.stringify(solve)
   })
   .catch(error => console.error('Error:', error));
 }
@@ -411,7 +410,6 @@ export function showTimeInfo(solve, array) {
   document.getElementById('solveInfoDeleteBtn').onclick = () => {
     deleteTime(solve, array);
     hideOverride();
-    updateStats(array);
   }
 }
 
