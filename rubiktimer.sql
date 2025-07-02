@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2025 at 10:38 PM
+-- Generation Time: Jul 02, 2025 at 11:03 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `rubiktimer`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `userId`, `name`) VALUES
+(1, 1, 'new Session');
 
 -- --------------------------------------------------------
 
@@ -183,6 +202,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
 --
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `solves`
 --
 ALTER TABLE `solves`
@@ -213,6 +238,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `solves`
 --
 ALTER TABLE `solves`
@@ -229,18 +260,6 @@ ALTER TABLE `solvetypes`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `solves`
---
-ALTER TABLE `solves`
-  ADD CONSTRAINT `Solves_fk1` FOREIGN KEY (`typeId`) REFERENCES `solvetypes` (`id`),
-  ADD CONSTRAINT `fk_solves_users` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `solves_ibfk_1` FOREIGN KEY (`sessionId`) REFERENCES `sessions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
