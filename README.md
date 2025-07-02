@@ -3,11 +3,11 @@
 
 ![Rubik Cube Timer - Home](https://github.com/user-attachments/assets/3c118e13-53d7-444e-8aa4-f51d2486ff69)
 
-<h3>Stats<\h3>
+<h3> Stats <\h3>
 
 ![Rubik Cube Timer - Stats](https://github.com/user-attachments/assets/06650a61-aa1c-4fb1-9d28-13e4f706e29a)
 
-<h3>Solves<\h3>
+<h3> Solves <\h3>
 
 ![Solves](https://github.com/user-attachments/assets/91b3d8f6-bcd0-4838-940d-082ad5352537)
 
