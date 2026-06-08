@@ -13,21 +13,39 @@ import {
   SelectValue,
   SelectViewport
 } from 'reka-ui'
+import modes from '~/types/modes'
 
 const model = defineModel<string | undefined>()
 const props = defineProps<{
   type: 'mode' | 'session'
 }>()
 
-const sessions = ['Session 1', 'Session 2', 'Session 3']
-const modes = ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7']
-
+let sessions: string[] = []
 const options = props.type === 'session' ? sessions : modes
+
+const createSession = () => {
+  const name = prompt('Enter session name')
+  if (name) {
+    sessions.push(name)
+    model.value = name
+  }
+}
 </script>
 <template>
-  <SelectRoot v-model="model">
+  <button
+    v-if="props.type === 'session' && !sessions.length"
+    class="bg-secondary text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
+    @click="createSession"
+  >
+    New Session
+  </button>
+  <SelectRoot
+    v-else
+    v-model="model"
+    :default-value="props.type === 'session' ? sessions[0] : modes['222']"
+  >
     <SelectTrigger
-      class="bg-secondary inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] text-sm leading-none outline-none"
+      class="bg-secondary text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
       aria-label="Customise options"
     >
       <SelectValue />
@@ -56,7 +74,7 @@ const options = props.type === 'session' ? sessions : modes
             <SelectItem
               v-for="(option, index) in options"
               :key="index"
-              class="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[35px] text-sm leading-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none"
+              class="text-md relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[35px] leading-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none"
               :value="option"
             >
               <SelectItemIndicator
