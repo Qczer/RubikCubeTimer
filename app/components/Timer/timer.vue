@@ -1,14 +1,12 @@
 <script setup lang="ts">
 const hideLayout = useState('hide-layout', () => false)
+const solves = useState('solves', () => <number[]>[])
 
 const startTime = ref<number | null>(null)
 const elapsed = ref(0)
-const running = ref(false)
-const inspecting = ref(false)
-const canStart = ref(true)
+const state = ref<'not-ready' | 'ready' | 'inspecting' | 'running'>('ready')
 
-const holdingTime = ref<number | null>(null)
-const stoppedOnKeyDown = ref(false)
+const pressedFor = ref<number | null>(null)
 
 let rafId: number | null = null
 
@@ -16,54 +14,37 @@ const settings = {
   decimalPoints: 2,
   inspection: {
     enabled: true,
-    seconds: 15,
+    seconds: 5,
     autoStart: false
   },
   hideLayout: true
 }
 
-const formatTime = (ms: number, plusTwo: boolean, DNF: boolean) => {
-  const days = Math.floor(ms / 86400000) // day = 86400000 ms
-  const hours = Math.floor((ms % 86400000) / 3600000) // hour = 3600000 ms
-  const minutes = Math.floor((ms % 3600000) / 60000) // minute = 60000 ms
-  const seconds = Math.floor((ms % 60000) / 1000)
-  const milliseconds = Math.floor(
-    (ms % 1000) / Math.pow(10, 3 - settings.decimalPoints)
-  )
-
-  if (inspecting.value) return seconds
-
-  const paddedMinutes = minutes.toString().padStart(2, '0')
-  const paddedMilliseconds = milliseconds
-    .toString()
-    .padStart(settings.decimalPoints, '0')
-  const paddedSeconds = seconds.toString().padStart(2, '0')
-
-  if (days > 0) {
-    return `${days}d ${hours}:${paddedMinutes}:${paddedSeconds}.${paddedMilliseconds}`
-  }
-  if (hours > 0) {
-    return `${hours}:${paddedMinutes}:${paddedSeconds}.${paddedMilliseconds}`
-  }
-  if (minutes > 0) {
-    return `${minutes}:${paddedSeconds}:${paddedMilliseconds}`
+const displayTime = computed(() => {
+  if (state.value === 'inspecting') {
+    return Math.ceil(
+      (settings.inspection.seconds * 1000 - elapsed.value) / 1000
+    )
   }
 
-  return `${seconds}.${paddedMilliseconds}`
-}
+  return formatTime(elapsed.value, settings.decimalPoints)
+})
 
 const tick = () => {
-  if ((!running.value && !inspecting.value) || startTime.value === null) return
+  if (rafId === null || !startTime.value) return
 
   elapsed.value = performance.now() - startTime.value
-  if (inspecting.value) {
+  if (state.value === 'inspecting') {
     const remaining = settings.inspection.seconds * 1000 - elapsed.value
 
     if (remaining <= 0) {
       if (settings.inspection.autoStart) {
         startTimer()
       } else {
-        inspecting.value = false
+        stopTimer()
+        startTime.value = null
+        elapsed.value = 0
+        return
       }
     }
   }
@@ -73,8 +54,7 @@ const tick = () => {
 
 const startInspection = () => {
   startTime.value = performance.now()
-  inspecting.value = true
-  canStart.value = false
+  state.value = 'inspecting'
   elapsed.value = 0
 
   if (settings.hideLayout) {
@@ -86,9 +66,7 @@ const startInspection = () => {
 
 const startTimer = () => {
   startTime.value = performance.now()
-  running.value = true
-  inspecting.value = false
-  canStart.value = false
+  state.value = 'running'
   elapsed.value = 0
 
   if (settings.hideLayout) {
@@ -98,16 +76,24 @@ const startTimer = () => {
   rafId = requestAnimationFrame(tick)
 }
 
-const stopTimer = () => {
-  running.value = false
-
-  if (hideLayout.value) {
-    hideLayout.value = false
-  }
-
+const stopTimer = (addTime: boolean = true) => {
   if (rafId !== null) {
     cancelAnimationFrame(rafId)
     rafId = null
+  }
+
+  if (startTime.value) {
+    elapsed.value = performance.now() - startTime.value
+  }
+
+  if (addTime && state.value === 'running') {
+    solves.value.push(elapsed.value)
+  }
+
+  state.value = 'not-ready'
+
+  if (hideLayout.value) {
+    hideLayout.value = false
   }
 }
 
@@ -120,11 +106,11 @@ const onKeyDown = (e: KeyboardEvent) => {
   if (!pressedTimestamp.value) {
     pressedTimestamp.value = performance.now()
   }
-  holdingTime.value = performance.now() - pressedTimestamp.value
 
-  if (running.value) {
+  pressedFor.value = performance.now() - pressedTimestamp.value
+
+  if (state.value === 'running') {
     stopTimer()
-    stoppedOnKeyDown.value = true
   }
 }
 
@@ -132,15 +118,13 @@ const onKeyUp = (e: KeyboardEvent) => {
   if (e.code !== 'Space') return
   e.preventDefault()
 
-  if (stoppedOnKeyDown.value) {
-    stoppedOnKeyDown.value = false
-  } else if (
-    inspecting.value &&
-    holdingTime.value &&
-    holdingTime.value >= 1000
+  if (
+    state.value === 'inspecting' &&
+    pressedFor.value &&
+    pressedFor.value >= 1000
   ) {
     startTimer()
-  } else if (canStart.value) {
+  } else if (state.value === 'ready') {
     if (settings.inspection.enabled) {
       startInspection()
     } else {
@@ -148,27 +132,28 @@ const onKeyUp = (e: KeyboardEvent) => {
     }
   }
 
-  if (!inspecting.value && !running.value) {
-    canStart.value = true
+  if (state.value === 'not-ready') {
+    state.value = 'ready'
   }
 
-  holdingTime.value = null
+  pressedFor.value = null
   pressedTimestamp.value = null
 }
 
 const colorClass = computed(() => {
-  if (
-    canStart.value &&
-    !inspecting.value &&
-    !running.value &&
-    holdingTime.value !== null
-  ) {
-    return `text-green-500`
+  if (state.value === 'not-ready') {
+    return 'text-white'
   }
 
-  if (holdingTime.value === null) return 'text-white'
-  if (holdingTime.value >= 1000) return 'text-green-500'
-  if (holdingTime.value >= 500) return 'text-yellow-400'
+  if (pressedFor.value === null)
+    return state.value === 'inspecting' ? 'text-red-500' : 'text-white'
+
+  if (state.value === 'ready' && pressedFor.value !== null)
+    return `text-green-500`
+
+  if (pressedFor.value >= 1000) return 'text-green-500'
+  if (pressedFor.value >= 500) return 'text-yellow-400'
+
   return 'text-red-500'
 })
 
@@ -184,10 +169,12 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <h2
-    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem]"
-    :class="colorClass"
-  >
-    {{ formatTime(elapsed, false, false) }}
-  </h2>
+  <div class="relative flex flex-1 items-center justify-center">
+    <h2
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem]"
+      :class="colorClass"
+    >
+      {{ displayTime }}
+    </h2>
+  </div>
 </template>
