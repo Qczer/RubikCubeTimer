@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import confetti from 'canvas-confetti'
+import type { Solve } from '~/types/solve'
+
 const hideLayout = useState('hide-layout', () => false)
-const solves = useState('solves', () => <number[]>[])
+const solves = useState('solves', () => <Solve[]>[])
 
 const startTime = ref<number | null>(null)
 const elapsed = ref(0)
 const state = ref<'not-ready' | 'ready' | 'inspecting' | 'running'>('ready')
+const currSolveState = ref<null | '+2' | 'DNF'>(null)
 
 const pressedFor = ref<number | null>(null)
 
@@ -41,10 +45,8 @@ const tick = () => {
       if (settings.inspection.autoStart) {
         startTimer()
       } else {
-        stopTimer()
-        startTime.value = null
-        elapsed.value = 0
-        return
+        if (remaining <= -2000) currSolveState.value = 'DNF'
+        else currSolveState.value = '+2'
       }
     }
   }
@@ -87,7 +89,37 @@ const stopTimer = (addTime: boolean = true) => {
   }
 
   if (addTime && state.value === 'running') {
-    solves.value.push(elapsed.value)
+    const worstTime = getWorst(solves.value)?.time
+    if (worstTime && elapsed.value < worstTime) {
+      const colors = ['#006bb2', '#0880d1', '#098be2']
+      confetti({
+        particleCount: 150,
+        angle: 40,
+        spread: 55,
+        origin: { x: 0 },
+        colors: colors,
+        gravity: 2,
+        startVelocity: 70
+      })
+      confetti({
+        particleCount: 150,
+        angle: 140,
+        spread: 55,
+        origin: { x: 1 },
+        colors: colors,
+        gravity: 2,
+        startVelocity: 70
+      })
+    }
+
+    const lastId = solves.value[-1]?.id ?? 0
+    solves.value.push({
+      id: lastId + 1,
+      time: elapsed.value,
+      scramble: '',
+      plusTwo: currSolveState.value === '+2',
+      DNF: currSolveState.value === 'DNF'
+    })
   }
 
   state.value = 'not-ready'
