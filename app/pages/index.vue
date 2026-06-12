@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Dropdown from '~/components/Timer/dropdown.vue'
 import StatsPanel from '~/components/Timer/StatsPanel/index.vue'
-import Timer from '~/components/Timer/timer.vue'
+import Timer from '~/components/Timer/index.vue'
 
 const hideLayout = useState('hide-layout')
 

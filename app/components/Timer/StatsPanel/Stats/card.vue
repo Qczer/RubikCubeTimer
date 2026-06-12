@@ -1,31 +1,21 @@
 <script setup lang="ts">
 import type { Average, Solve } from '~/types/solve'
 
-type BaseProps = {
-  height?: number
-}
-
-type PbWorstAvgProps = BaseProps & {
-  type: 'pb' | 'worst' | 'avg'
-}
-
-type AoMoProps = BaseProps & {
-  type: 'ao' | 'mo'
-  solvesCount: number
-  isPb?: true
-}
-
 const solves = useState<Solve[]>('solves')
 const showList = ref(false)
-const props = defineProps<PbWorstAvgProps | AoMoProps>()
+const props = defineProps<{
+  type: 'pb' | 'worst' | 'avg' | 'ao' | 'mo'
+  solvesCount?: number
+  isPb?: true
+  height?: number
+}>()
 
 const isSolve = (value: Solve | Average): value is Solve => {
   return 'scramble' in value
 }
 
 const getValue = (): null | Solve | Average => {
-  if ('solvesCount' in props && props.solvesCount > solves.value.length)
-    return null
+  if (props.solvesCount && props.solvesCount > solves.value.length) return null
 
   switch (props.type) {
     case 'pb':
@@ -66,7 +56,7 @@ const filteredSolves = computed(() => {
     return newSolves.slice(0, props.solvesCount)
   }
 
-  if ('solvesCount' in props) {
+  if (props.solvesCount) {
     return newSolves.slice(-props.solvesCount)
   }
 

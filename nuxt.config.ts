@@ -28,6 +28,7 @@ export default defineNuxtConfig({
         '@lucide/vue',
         '@vue/devtools-core',
         '@vue/devtools-kit',
+        'canvas-confetti',
         'reka-ui'
       ]
     }
