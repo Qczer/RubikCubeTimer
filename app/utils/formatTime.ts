@@ -36,3 +36,15 @@ export const formatTime = (
 
   return `${seconds}${msPart}`
 }
+
+export const formatDate = (date: number): string => {
+  const formatted = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }).format(new Date(date))
+  return formatted
+}

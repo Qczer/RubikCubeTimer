@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti'
 import type { Solve } from '~/types/solve'
 
 const settings = useSettingsStore()
+const UIStore = useUIStore()
 const { solves } = useSolves()
 const reversedSolves = computed(() => {
   return [...solves.value].reverse()
@@ -15,6 +16,7 @@ const startTime = ref<number | null>(null)
 const elapsed = ref(0)
 const state = ref<'not-ready' | 'ready' | 'inspecting' | 'running'>('ready')
 const currSolveState = ref<null | '+2' | 'DNF'>(null)
+const actionLocked = ref(false)
 
 const pressedFor = ref<number | null>(null)
 
@@ -83,9 +85,13 @@ const startInspection = () => {
 }
 
 const startTimer = () => {
+  if (actionLocked.value) return
+  actionLocked.value = true
+
   startTime.value = performance.now()
   state.value = 'running'
   elapsed.value = 0
+  pressedFor.value = null
 
   if (settings.timer.hideLayout) {
     hideLayout.value = true
@@ -95,6 +101,9 @@ const startTimer = () => {
 }
 
 const stopTimer = (addTime: boolean = true) => {
+  if (actionLocked.value) return
+  actionLocked.value = true
+
   if (rafId !== null) {
     cancelAnimationFrame(rafId)
     rafId = null
@@ -139,7 +148,8 @@ const stopTimer = (addTime: boolean = true) => {
       puzzle: settings.timer.puzzle,
       plusTwo: currSolveState.value === '+2',
       DNF: currSolveState.value === 'DNF',
-      date: Date.now()
+      date: Date.now(),
+      notes: ''
     }
     solves.value.push(solve)
   }
@@ -154,7 +164,7 @@ const stopTimer = (addTime: boolean = true) => {
 const pressedTimestamp = ref<number | null>(null)
 
 const onKeyDown = (e: KeyboardEvent) => {
-  if (e.code !== 'Space') return
+  if (UIStore.isModalOpen || e.code !== 'Space') return
   e.preventDefault()
 
   if (!pressedTimestamp.value) {
@@ -169,8 +179,12 @@ const onKeyDown = (e: KeyboardEvent) => {
 }
 
 const onKeyUp = (e: KeyboardEvent) => {
-  if (e.code !== 'Space') return
+  if (UIStore.isModalOpen || e.code !== 'Space') return
   e.preventDefault()
+
+  setTimeout(() => {
+    actionLocked.value = false
+  }, 50)
 
   if (
     state.value === 'inspecting' &&

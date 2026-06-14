@@ -102,7 +102,10 @@ const closeSolveCard = () => (showSolveCard.value = false)
     </span>
     <span
       class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer text-2xl font-bold"
-      :class="props.height && props.height >= 2 ? 'text-4xl' : ''"
+      :class="{
+        'text-4xl': props.height && props.height >= 2,
+        'hover:underline': displayValue !== '-'
+      }"
       @click="toggleSolveCard"
     >
       {{ displayValue }}

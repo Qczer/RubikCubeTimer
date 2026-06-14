@@ -8,6 +8,7 @@ export interface Solve {
   plusTwo?: boolean
   DNF?: boolean
   date: number
+  notes: string
 }
 
 export interface Average {

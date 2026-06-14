@@ -12,7 +12,7 @@ const props = defineProps<{
 </script>
 <template>
   <button
-    class="flex items-center justify-center gap-1 rounded-md px-3 py-1.5 text-sm"
+    class="flex items-center justify-center gap-1 rounded-md px-3 py-1.5 text-sm transition"
     :class="active ? activeClass : 'bg-primary'"
     :disabled="disabled"
     @click="onClick"
