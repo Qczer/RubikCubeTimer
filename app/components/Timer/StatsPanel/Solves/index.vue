@@ -3,10 +3,10 @@ import { X } from '@lucide/vue'
 import type { Solve } from '~/types/solve'
 import SolveCard from './Card/index.vue'
 
-const { solves, removeSolve, plusTwoSolve, DNFSolve } = useSolves()
+const solves = useSolvesStore()
 
 const reversedSolves = computed(() => {
-  return [...solves.value].reverse()
+  return [...solves.solves].reverse()
 })
 
 const solveRef = ref<Solve | null>(null)
@@ -29,7 +29,7 @@ const getColor = (solve: Solve) => {
 <template>
   <SolveCard v-if="solveRef" :solve="solveRef" @close="closeSolve" />
   <p
-    v-if="solves.length === 0"
+    v-if="solves.solves.length === 0"
     class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
   >
     No solves yet
@@ -39,7 +39,7 @@ const getColor = (solve: Solve) => {
     :key="i"
     class="flex h-9 shrink-0 flex-row items-center justify-center pr-1.5"
   >
-    <span class="min-w-10 pr-1.5">{{ solves.length - i }}.</span>
+    <span class="min-w-10 pr-1.5">{{ solves.solves.length - i }}.</span>
     <span
       class="w-[150px] shrink-0 cursor-pointer text-green-500 hover:underline"
       :class="getColor(solve)"
@@ -50,21 +50,21 @@ const getColor = (solve: Solve) => {
       <span
         class="cursor-pointer text-sm font-bold hover:opacity-100"
         :class="solve.plusTwo ? `${colors.plusTwo} opacity-100` : 'opacity-60'"
-        @click="plusTwoSolve(solve)"
+        @click="solves.togglePlusTwo(solve)"
       >
         +2
       </span>
       <span
         class="cursor-pointer text-sm font-bold hover:opacity-100"
         :class="solve.DNF ? `${colors.dnf} opacity-100` : 'opacity-60'"
-        @click="DNFSolve(solve)"
+        @click="solves.toggleDNF(solve)"
       >
         DNF
       </span>
       <X
         class="cursor-pointer opacity-60 hover:opacity-100"
         :size="20"
-        @click="removeSolve(solve)"
+        @click="solves.removeSolve(solve)"
       />
     </div>
   </div>

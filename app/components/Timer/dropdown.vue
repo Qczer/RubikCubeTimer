@@ -20,13 +20,13 @@ const props = defineProps<{
   type: 'puzzle' | 'session'
 }>()
 
-const { sessions } = useSessions()
+const { sessions } = useSessionsStore()
 const modeOptions = Object.entries(puzzles).map(([value, label]) => ({
   value,
   label
 }))
 const sessionOptions = computed(() =>
-  sessions.value.map((session) => ({
+  sessions.map((session) => ({
     value: session.name,
     label: session.name
   }))
@@ -35,20 +35,20 @@ const options = computed(() =>
   props.type === 'session' ? sessionOptions.value : modeOptions
 )
 const defaultValue = computed(() =>
-  props.type === 'session' ? sessions.value[0]?.name : '222'
+  props.type === 'session' ? sessions[0]?.name : '222'
 )
 
 const createSession = () => {
   const name = prompt('Enter session name')?.trim()
   if (!name) return
 
-  const existing = sessions.value.find((session) => session.name === name)
+  const existing = sessions.find((session) => session.name === name)
   if (existing) {
     model.value = existing.name
     return
   }
 
-  sessions.value.push({
+  sessions.push({
     name,
     solves: createEmptySolves()
   })

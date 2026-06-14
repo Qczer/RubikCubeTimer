@@ -7,7 +7,7 @@ import { formatDate } from '#imports'
 
 const settings = useSettingsStore()
 const UIStore = useUIStore()
-const { removeSolve } = useSolves()
+const { removeSolve } = useSolvesStore()
 
 const props = defineProps<{
   solve: Solve
