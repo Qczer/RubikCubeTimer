@@ -13,44 +13,57 @@ import {
   SelectValue,
   SelectViewport
 } from 'reka-ui'
-import modes from '~/types/modes'
+import puzzles from '~/types/puzzles'
 
 const model = defineModel<string | undefined>()
 const props = defineProps<{
-  type: 'mode' | 'session'
+  type: 'puzzle' | 'session'
 }>()
 
-let sessions: string[] = []
-const options = props.type === 'session' ? sessions : modes
+const { sessions } = useSessions()
+const modeOptions = Object.entries(puzzles).map(([value, label]) => ({
+  value,
+  label
+}))
+const sessionOptions = computed(() =>
+  sessions.value.map((session) => ({
+    value: session.name,
+    label: session.name
+  }))
+)
+const options = computed(() =>
+  props.type === 'session' ? sessionOptions.value : modeOptions
+)
+const defaultValue = computed(() =>
+  props.type === 'session' ? sessions.value[0]?.name : '222'
+)
 
 const createSession = () => {
-  const name = prompt('Enter session name')
-  if (name) {
-    sessions.push(name)
-    model.value = name
+  const name = prompt('Enter session name')?.trim()
+  if (!name) return
+
+  const existing = sessions.value.find((session) => session.name === name)
+  if (existing) {
+    model.value = existing.name
+    return
   }
+
+  sessions.value.push({
+    name,
+    solves: createEmptySolves()
+  })
+  model.value = name
 }
 </script>
 <template>
-  <button
-    v-if="props.type === 'session' && !sessions.length"
-    class="bg-secondary text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
-    @click="createSession"
-  >
-    New Session
-  </button>
-  <SelectRoot
-    v-else
-    v-model="model"
-    :default-value="props.type === 'session' ? sessions[0] : modes['222']"
-  >
+  <SelectRoot v-model="model" :default-value="defaultValue">
     <SelectTrigger
       class="bg-secondary text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
       aria-label="Customise options"
     >
       <SelectValue />
       <img
-        v-if="type === 'mode'"
+        v-if="type === 'puzzle'"
         src="/icons/cuboid.svg"
         class="invert"
         alt="Cuboid"
@@ -75,7 +88,7 @@ const createSession = () => {
               v-for="(option, index) in options"
               :key="index"
               class="text-md relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[35px] leading-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none"
-              :value="option"
+              :value="option.value"
             >
               <SelectItemIndicator
                 class="absolute left-0 inline-flex w-[25px] items-center justify-center"
@@ -83,11 +96,20 @@ const createSession = () => {
                 <Icon name="radix-icons:check" />
               </SelectItemIndicator>
               <SelectItemText>
-                {{ option }}
+                {{ option.label }}
               </SelectItemText>
             </SelectItem>
           </SelectGroup>
         </SelectViewport>
+
+        <button
+          v-if="props.type === 'session'"
+          class="hover:bg-primary/20 flex h-[30px] w-full items-center gap-2 rounded-[3px] px-[10px] text-sm outline-none"
+          @click="createSession"
+        >
+          <Icon name="radix-icons:plus" />
+          New Session
+        </button>
 
         <SelectScrollDownButton
           class="bg-secondary flex h-[25px] cursor-default items-center justify-center"

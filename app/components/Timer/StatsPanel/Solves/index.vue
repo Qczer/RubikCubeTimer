@@ -1,25 +1,39 @@
 <script setup lang="ts">
 import { X } from '@lucide/vue'
 import type { Solve } from '~/types/solve'
+import SolveCard from './Card/index.vue'
 
-const solves = useState<Solve[]>('solves')
+const { solves, removeSolve, plusTwoSolve, DNFSolve } = useSolves()
 
 const reversedSolves = computed(() => {
   return [...solves.value].reverse()
 })
 
-const showSolve = (solve: Solve) => console.log('showSolve')
-const plusTwo = (solve: Solve) => (solve.plusTwo = !solve.plusTwo)
-const DNF = (solve: Solve) => (solve.DNF = !solve.DNF)
+const solveRef = ref<Solve | null>(null)
+
+const showSolve = (solve: Solve) => (solveRef.value = solve)
+const closeSolve = () => (solveRef.value = null)
+
+const colors = {
+  dnf: 'text-red-500',
+  plusTwo: 'text-orange-500',
+  green: 'text-green-500'
+}
 
 const getColor = (solve: Solve) => {
-  if (solve.DNF) return 'text-red-500'
-  if (solve.plusTwo) return 'text-orange-500'
-  return 'text-green-500'
+  if (solve.DNF) return colors.dnf
+  if (solve.plusTwo) return colors.plusTwo
+  return colors.green
 }
 </script>
 <template>
-  <p v-if="solves.length === 0">No solves yet</p>
+  <SolveCard v-if="solveRef" :solve="solveRef" @close="closeSolve" />
+  <p
+    v-if="solves.length === 0"
+    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+  >
+    No solves yet
+  </p>
   <div
     v-for="(solve, i) in reversedSolves"
     :key="i"
@@ -35,19 +49,23 @@ const getColor = (solve: Solve) => {
     <div class="flex w-full flex-row justify-end gap-2">
       <span
         class="cursor-pointer text-sm font-bold hover:opacity-100"
-        :class="solve.plusTwo ? 'text-orange-500 opacity-100' : 'opacity-60'"
-        @click="plusTwo(solve)"
+        :class="solve.plusTwo ? `${colors.plusTwo} opacity-100` : 'opacity-60'"
+        @click="plusTwoSolve(solve)"
       >
         +2
       </span>
       <span
         class="cursor-pointer text-sm font-bold hover:opacity-100"
-        :class="solve.DNF ? 'text-red-500 opacity-100' : 'opacity-60'"
-        @click="DNF(solve)"
+        :class="solve.DNF ? `${colors.dnf} opacity-100` : 'opacity-60'"
+        @click="DNFSolve(solve)"
       >
         DNF
       </span>
-      <X class="cursor-pointer opacity-60 hover:opacity-100" :size="20" />
+      <X
+        class="cursor-pointer opacity-60 hover:opacity-100"
+        :size="20"
+        @click="removeSolve(solve)"
+      />
     </div>
   </div>
 </template>

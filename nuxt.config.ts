@@ -7,6 +7,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     '@nuxt/icon',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     'reka-ui',
     'nuxt-svgo'
   ],
@@ -22,6 +24,11 @@ export default defineNuxtConfig({
     ]
   },
   css: ['~/assets/css/main.css'],
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag === 'twisty-player'
+    }
+  },
   vite: {
     optimizeDeps: {
       include: [
@@ -29,6 +36,9 @@ export default defineNuxtConfig({
         '@vue/devtools-core',
         '@vue/devtools-kit',
         'canvas-confetti',
+        'cubing/puzzles',
+        'cubing/scramble',
+        'cubing/twisty',
         'reka-ui'
       ]
     }

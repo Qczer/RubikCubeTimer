@@ -2,8 +2,14 @@
 import confetti from 'canvas-confetti'
 import type { Solve } from '~/types/solve'
 
+const settings = useSettingsStore()
+const { solves } = useSolves()
+const reversedSolves = computed(() => {
+  return [...solves.value].reverse()
+})
+
 const hideLayout = useState('hide-layout', () => false)
-const solves = useState('solves', () => <Solve[]>[])
+const scramble = useState<string>('scramble', () => '')
 
 const startTime = ref<number | null>(null)
 const elapsed = ref(0)
@@ -14,24 +20,30 @@ const pressedFor = ref<number | null>(null)
 
 let rafId: number | null = null
 
-const settings = {
-  decimalPoints: 2,
-  inspection: {
-    enabled: true,
-    seconds: 5,
-    autoStart: false
-  },
-  hideLayout: true
-}
-
 const displayTime = computed(() => {
   if (state.value === 'inspecting') {
-    return Math.ceil(
-      (settings.inspection.seconds * 1000 - elapsed.value) / 1000
+    if (currSolveState.value === '+2') return '+2'
+
+    return formatTime(
+      settings.timer.inspection.seconds * 1000 - elapsed.value,
+      0,
+      false,
+      currSolveState.value === 'DNF'
     )
   }
-
-  return formatTime(elapsed.value, settings.decimalPoints)
+  if (state.value === 'ready') {
+    if (reversedSolves.value[0]) {
+      return formatTime(
+        reversedSolves.value[0]?.time ?? 0,
+        settings.timer.decimalPoints,
+        reversedSolves.value[0]?.plusTwo,
+        reversedSolves.value[0]?.DNF
+      )
+    } else {
+      return formatTime(0, settings.timer.decimalPoints)
+    }
+  }
+  return formatTime(elapsed.value, settings.timer.decimalPoints)
 })
 
 const tick = () => {
@@ -39,14 +51,15 @@ const tick = () => {
 
   elapsed.value = performance.now() - startTime.value
   if (state.value === 'inspecting') {
-    const remaining = settings.inspection.seconds * 1000 - elapsed.value
+    const remaining = settings.timer.inspection.seconds * 1000 - elapsed.value
 
     if (remaining <= 0) {
-      if (settings.inspection.autoStart) {
+      if (settings.timer.inspection.autoStart) {
         startTimer()
+      } else if (remaining <= -2000) {
+        currSolveState.value = 'DNF'
       } else {
-        if (remaining <= -2000) currSolveState.value = 'DNF'
-        else currSolveState.value = '+2'
+        currSolveState.value = '+2'
       }
     }
   }
@@ -59,7 +72,7 @@ const startInspection = () => {
   state.value = 'inspecting'
   elapsed.value = 0
 
-  if (settings.hideLayout) {
+  if (settings.timer.hideLayout) {
     hideLayout.value = true
   }
 
@@ -71,7 +84,7 @@ const startTimer = () => {
   state.value = 'running'
   elapsed.value = 0
 
-  if (settings.hideLayout) {
+  if (settings.timer.hideLayout) {
     hideLayout.value = true
   }
 
@@ -112,14 +125,16 @@ const stopTimer = (addTime: boolean = true) => {
       })
     }
 
-    const lastId = solves.value[-1]?.id ?? 0
-    solves.value.push({
-      id: lastId + 1,
+    const solve: Solve = {
+      id: Math.floor(Math.random()),
       time: elapsed.value,
-      scramble: '',
+      scramble: scramble.value,
+      puzzle: settings.timer.puzzle,
       plusTwo: currSolveState.value === '+2',
-      DNF: currSolveState.value === 'DNF'
-    })
+      DNF: currSolveState.value === 'DNF',
+      date: Date.now()
+    }
+    solves.value.push(solve)
   }
 
   state.value = 'not-ready'
@@ -157,7 +172,7 @@ const onKeyUp = (e: KeyboardEvent) => {
   ) {
     startTimer()
   } else if (state.value === 'ready') {
-    if (settings.inspection.enabled) {
+    if (settings.timer.inspection.enabled) {
       startInspection()
     } else {
       startTimer()
@@ -201,10 +216,9 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <TimerScramblePanel />
   <div class="relative flex flex-1 items-center justify-center">
     <h2
-      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem]"
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-default text-center text-[15rem]"
       :class="colorClass"
     >
       {{ displayTime }}

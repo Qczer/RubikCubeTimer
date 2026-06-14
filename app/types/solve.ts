@@ -1,9 +1,13 @@
+import type { PuzzleKey } from './puzzles'
+
 export interface Solve {
   id: number
   time: number
   scramble: string
+  puzzle: PuzzleKey
   plusTwo?: boolean
   DNF?: boolean
+  date: number
 }
 
 export interface Average {

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Average, Solve } from '~/types/solve'
+import Card from '~/components/Timer/StatsPanel/Solves/Card/index.vue'
 
-const solves = useState<Solve[]>('solves')
-const showList = ref(false)
+const { solves } = useSolves()
+const showSolveCard = ref(false)
 const props = defineProps<{
   type: 'pb' | 'worst' | 'avg' | 'ao' | 'mo'
   solvesCount?: number
@@ -32,6 +33,7 @@ const getValue = (): null | Solve | Average => {
 }
 
 const value = computed(() => getValue())
+const lastSolve = computed(() => solves.value.at(-1))
 
 const displayValue = computed(() => {
   if (!value.value) return '-'
@@ -63,20 +65,28 @@ const filteredSolves = computed(() => {
   return newSolves
 })
 
-const toggleList = () => {
-  showList.value = !showList.value
-}
+const toggleSolveCard = () => (showSolveCard.value = !showSolveCard.value)
+const closeSolveCard = () => (showSolveCard.value = false)
 </script>
 <template>
   <div
-    v-if="showList"
-    class="-translate-y-1/ absolute left-1/2 top-1/2 -translate-x-1/2 transform"
+    v-if="showSolveCard"
+    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
   >
     <p v-for="(solve, i) in filteredSolves" :key="i">
       {{ i + 1 }}.
       {{ formatTime(solve.time, undefined, solve.plusTwo, solve.DNF) }}
     </p>
   </div>
+  <Card
+    v-if="
+      showSolveCard &&
+      lastSolve &&
+      (props.type === 'pb' || props.type === 'worst')
+    "
+    :solve="lastSolve"
+    @close="closeSolveCard"
+  />
 
   <div
     class="bg-secondary relative flex min-h-[50px] rounded-lg p-1.5"
@@ -91,9 +101,9 @@ const toggleList = () => {
       {{ 'isPb' in props && props.isPb ? 'pb' : '' }}
     </span>
     <span
-      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-bold"
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer text-2xl font-bold"
       :class="props.height && props.height >= 2 ? 'text-4xl' : ''"
-      @click="toggleList"
+      @click="toggleSolveCard"
     >
       {{ displayValue }}
     </span>
