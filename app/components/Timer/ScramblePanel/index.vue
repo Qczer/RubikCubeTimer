@@ -40,12 +40,10 @@ const refresh = async () => (scramble.value = await getScramble())
 </script>
 <template>
   <div class="mt-5 flex flex-col items-center gap-2">
-    <p v-if="!editing" class="cursor-default p-1 text-2xl">
-      {{ scrambleText }}
-    </p>
     <input
-      v-else
-      class="outline-solid w-[70%] rounded-lg bg-transparent p-1 text-center text-2xl outline outline-zinc-700"
+      :disabled="!editing"
+      class="outline-solid w-[70%] rounded-lg bg-transparent p-1 text-center text-2xl outline-zinc-700"
+      :class="editing ? 'outline' : ''"
       v-model="scrambleText"
     />
     <div class="flex gap-3">

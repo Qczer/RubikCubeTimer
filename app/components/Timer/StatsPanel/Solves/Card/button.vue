@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Copy } from '@lucide/vue'
+import { Check, Copy } from '@lucide/vue'
 
 const props = defineProps<{
   text: string
@@ -24,6 +24,7 @@ const props = defineProps<{
       class="invert"
       alt="Cuboid"
     />
-    <Copy v-else-if="icon === 'copy'" :size="15" />
+    <Copy v-else-if="icon === 'copy' && !active" :size="15" />
+    <Check v-else-if="icon === 'copy' && active" :size="15" />
   </button>
 </template>

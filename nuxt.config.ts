@@ -13,15 +13,19 @@ export default defineNuxtConfig({
     'nuxt-svgo'
   ],
   i18n: {
+    locales: [
+      { code: 'en', iso: 'en-US', file: 'en.ts', name: 'English' },
+      { code: 'pl', iso: 'pl-PL', file: 'pl.ts', name: 'Polski' }
+    ],
     defaultLocale: 'en',
     strategy: 'no_prefix',
-    locales: [
-      {
-        code: 'en',
-        language: 'en-US',
-        name: 'English'
-      }
-    ]
+    langDir: 'locales',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      alwaysRedirect: true,
+      fallbackLocale: 'en'
+    }
   },
   css: ['~/assets/css/main.css'],
   vue: {

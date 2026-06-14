@@ -39,6 +39,10 @@ export const useSolves = () => {
 
   const removeSolve = (solve: Solve) => {
     if (!currentSession.value) return
+    if (settings.timer.confirmDelete) {
+      const ok = confirm('Na pewno chcesz usunąć ten element?')
+      if (!ok) return
+    }
     const arr = solves.value
 
     currentSession.value.solves[settings.timer.puzzle] = arr.filter(

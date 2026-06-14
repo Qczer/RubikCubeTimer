@@ -15,12 +15,19 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const copyActive = ref(false)
 const editing = ref(false)
 const toggleEdit = () => (editing.value = !editing.value)
 
 const PlusTwo = () => (props.solve.plusTwo = !props.solve.plusTwo)
 const DNF = () => (props.solve.DNF = !props.solve.DNF)
-const CopyScramble = () => navigator.clipboard.writeText(props.solve.scramble)
+const CopyScramble = () => {
+  navigator.clipboard.writeText(props.solve.scramble)
+  copyActive.value = true
+  setTimeout(() => {
+    copyActive.value = false
+  }, 1500)
+}
 </script>
 
 <template>
@@ -67,10 +74,8 @@ const CopyScramble = () => navigator.clipboard.writeText(props.solve.scramble)
           />
         </div>
       </div>
-      <div
-        class="w-full rounded-sm border-t border-t-[2px] border-zinc-700"
-      ></div>
-      <div class="flex flex-col items-center gap-2">
+      <div class="w-full rounded-sm border-t border-t-[2px] border-zinc-700" />
+      <div class="flex flex-col items-center gap-2 p-1">
         <twisty-player
           :puzzle="twistyPlayerPuzzles[settings.timer.puzzle]"
           :alg="solve.scramble"
@@ -79,15 +84,19 @@ const CopyScramble = () => navigator.clipboard.writeText(props.solve.scramble)
           visualization="2D"
           controlPanel="none"
         />
-        <p v-if="!editing" class="text-md p-1">
-          {{ solve.scramble }}
-        </p>
         <input
-          v-else
-          class="text-md w-full rounded-lg bg-transparent p-1 text-center outline outline-2 outline-zinc-700"
+          :disabled="!editing"
+          class="text-md h-full w-[90%] w-full rounded-lg bg-transparent py-0.5 text-center outline-2 outline-zinc-700"
+          :class="editing ? 'outline' : ''"
           v-model="solve.scramble"
         />
-        <Button text="Copy Scramble" icon="copy" :onClick="CopyScramble" />
+        <Button
+          text="Copy Scramble"
+          icon="copy"
+          :active="copyActive"
+          :activeClass="'bg-white text-black'"
+          :onClick="CopyScramble"
+        />
       </div>
     </div>
   </div>

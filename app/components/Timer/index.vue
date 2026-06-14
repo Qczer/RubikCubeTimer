@@ -25,13 +25,16 @@ const displayTime = computed(() => {
     if (currSolveState.value === '+2') return '+2'
 
     return formatTime(
-      settings.timer.inspection.seconds * 1000 - elapsed.value,
+      settings.timer.inspection.time * 1000 - elapsed.value,
       0,
       false,
       currSolveState.value === 'DNF'
     )
   }
   if (state.value === 'ready') {
+    if (settings.timer.zeroOutTime) {
+      return formatTime(0, settings.timer.decimalPoints)
+    }
     if (reversedSolves.value[0]) {
       return formatTime(
         reversedSolves.value[0]?.time ?? 0,
@@ -39,10 +42,10 @@ const displayTime = computed(() => {
         reversedSolves.value[0]?.plusTwo,
         reversedSolves.value[0]?.DNF
       )
-    } else {
-      return formatTime(0, settings.timer.decimalPoints)
     }
   }
+
+  if (settings.timer.hideTime) return 'solve'
   return formatTime(elapsed.value, settings.timer.decimalPoints)
 })
 
@@ -51,7 +54,7 @@ const tick = () => {
 
   elapsed.value = performance.now() - startTime.value
   if (state.value === 'inspecting') {
-    const remaining = settings.timer.inspection.seconds * 1000 - elapsed.value
+    const remaining = settings.timer.inspection.time * 1000 - elapsed.value
 
     if (remaining <= 0) {
       if (settings.timer.inspection.autoStart) {
@@ -103,7 +106,11 @@ const stopTimer = (addTime: boolean = true) => {
 
   if (addTime && state.value === 'running') {
     const worstTime = getWorst(solves.value)?.time
-    if (worstTime && elapsed.value < worstTime) {
+    if (
+      settings.timer.personalBestConfetti &&
+      worstTime &&
+      elapsed.value < worstTime
+    ) {
       const colors = ['#006bb2', '#0880d1', '#098be2']
       confetti({
         particleCount: 150,
@@ -168,7 +175,7 @@ const onKeyUp = (e: KeyboardEvent) => {
   if (
     state.value === 'inspecting' &&
     pressedFor.value &&
-    pressedFor.value >= 1000
+    pressedFor.value >= settings.timer.freezeTime * 1000
   ) {
     startTimer()
   } else if (state.value === 'ready') {
@@ -197,9 +204,10 @@ const colorClass = computed(() => {
 
   if (state.value === 'ready' && pressedFor.value !== null)
     return `text-green-500`
-
-  if (pressedFor.value >= 1000) return 'text-green-500'
-  if (pressedFor.value >= 500) return 'text-yellow-400'
+  if (pressedFor.value >= settings.timer.freezeTime * 1000)
+    return 'text-green-500'
+  if (pressedFor.value >= (settings.timer.freezeTime * 1000) / 2)
+    return 'text-yellow-400'
 
   return 'text-red-500'
 })
@@ -218,7 +226,7 @@ onUnmounted(() => {
 <template>
   <div class="relative flex flex-1 items-center justify-center">
     <h2
-      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-default text-center text-[15rem]"
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none text-center text-[15rem]"
       :class="colorClass"
     >
       {{ displayTime }}

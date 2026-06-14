@@ -13,62 +13,29 @@ import {
   SelectValue,
   SelectViewport
 } from 'reka-ui'
-import puzzles from '~/types/puzzles'
+import type { SettingOption } from '~/types/settings'
 
-const model = defineModel<string | undefined>()
+const model = defineModel<number>({ required: true })
 const props = defineProps<{
-  type: 'puzzle' | 'session'
+  options: readonly SettingOption[]
 }>()
 
-const { sessions } = useSessions()
-const modeOptions = Object.entries(puzzles).map(([value, label]) => ({
-  value,
-  label
-}))
-const sessionOptions = computed(() =>
-  sessions.value.map((session) => ({
-    value: session.name,
-    label: session.name
-  }))
-)
-const options = computed(() =>
-  props.type === 'session' ? sessionOptions.value : modeOptions
-)
-const defaultValue = computed(() =>
-  props.type === 'session' ? sessions.value[0]?.name : '222'
-)
-
-const createSession = () => {
-  const name = prompt('Enter session name')?.trim()
-  if (!name) return
-
-  const existing = sessions.value.find((session) => session.name === name)
-  if (existing) {
-    model.value = existing.name
-    return
+const selectValue = computed<string>({
+  get: () => String(model.value),
+  set: (value) => {
+    const option = props.options.find((item) => String(item.value) === value)
+    if (option) model.value = option.value
   }
-
-  sessions.value.push({
-    name,
-    solves: createEmptySolves()
-  })
-  model.value = name
-}
+})
 </script>
 <template>
-  <SelectRoot v-model="model" :default-value="defaultValue">
+  <SelectRoot v-model="selectValue">
     <SelectTrigger
       class="bg-secondary text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
       aria-label="Customise options"
     >
       <SelectValue />
-      <img
-        v-if="type === 'puzzle'"
-        src="/icons/cuboid.svg"
-        class="invert"
-        alt="Cuboid"
-      />
-      <Icon v-else name="radix-icons:chevron-down" />
+      <Icon name="radix-icons:chevron-down" />
     </SelectTrigger>
 
     <SelectPortal>
@@ -88,7 +55,7 @@ const createSession = () => {
               v-for="(option, index) in options"
               :key="index"
               class="text-md relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[35px] leading-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none"
-              :value="option.value"
+              :value="String(option.value)"
             >
               <SelectItemIndicator
                 class="absolute left-0 inline-flex w-[25px] items-center justify-center"
