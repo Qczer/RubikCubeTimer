@@ -1,180 +1,61 @@
 <script setup lang="ts">
-import confetti from 'canvas-confetti'
-import type { Solve } from '~/types/solve'
-
 const settings = useSettingsStore()
 const UIStore = useUIStore()
-const { solves } = useSolves()
-const reversedSolves = computed(() => {
-  return [...solves.value].reverse()
-})
+const timer = useTimerStore()
+const solves = useSolvesStore()
 
-const hideLayout = useState('hide-layout', () => false)
 const scramble = useState<string>('scramble', () => '')
-
-const startTime = ref<number | null>(null)
-const elapsed = ref(0)
-const state = ref<'not-ready' | 'ready' | 'inspecting' | 'running'>('ready')
-const currSolveState = ref<null | '+2' | 'DNF'>(null)
-const actionLocked = ref(false)
-
-const pressedFor = ref<number | null>(null)
-
-let rafId: number | null = null
+const hideLayout = useState('hide-layout', () => false)
 
 const displayTime = computed(() => {
-  if (state.value === 'inspecting') {
-    if (currSolveState.value === '+2') return '+2'
-
-    return formatTime(
-      settings.timer.inspection.time * 1000 - elapsed.value,
-      0,
-      false,
-      currSolveState.value === 'DNF'
-    )
-  }
-  if (state.value === 'ready') {
-    if (settings.timer.zeroOutTime) {
+  if (timer.state === 'ready') {
+    if (settings.timer.zeroOutTime || solves.solves.length === 0) {
       return formatTime(0, settings.timer.decimalPoints)
     }
-    if (reversedSolves.value[0]) {
+
+    const last = solves.solves[solves.solves.length - 1]
+    if (last) {
       return formatTime(
-        reversedSolves.value[0]?.time ?? 0,
+        last.time,
         settings.timer.decimalPoints,
-        reversedSolves.value[0]?.plusTwo,
-        reversedSolves.value[0]?.DNF
+        last.plusTwo,
+        last.DNF
       )
     }
   }
 
+  if (timer.state === 'inspecting') {
+    if (timer.currSolveState === '+2') return '+2'
+
+    return formatTime(
+      settings.timer.inspection.time * 1000 - timer.elapsed,
+      0,
+      false,
+      timer.currSolveState === 'DNF'
+    )
+  }
+
   if (settings.timer.hideTime) return 'solve'
-  return formatTime(elapsed.value, settings.timer.decimalPoints)
+  return formatTime(timer.elapsed, settings.timer.decimalPoints)
 })
-
-const tick = () => {
-  if (rafId === null || !startTime.value) return
-
-  elapsed.value = performance.now() - startTime.value
-  if (state.value === 'inspecting') {
-    const remaining = settings.timer.inspection.time * 1000 - elapsed.value
-
-    if (remaining <= 0) {
-      if (settings.timer.inspection.autoStart) {
-        startTimer()
-      } else if (remaining <= -2000) {
-        currSolveState.value = 'DNF'
-      } else {
-        currSolveState.value = '+2'
-      }
-    }
-  }
-
-  rafId = requestAnimationFrame(tick)
-}
-
-const startInspection = () => {
-  startTime.value = performance.now()
-  state.value = 'inspecting'
-  elapsed.value = 0
-
-  if (settings.timer.hideLayout) {
-    hideLayout.value = true
-  }
-
-  rafId = requestAnimationFrame(tick)
-}
-
-const startTimer = () => {
-  if (actionLocked.value) return
-  actionLocked.value = true
-
-  startTime.value = performance.now()
-  state.value = 'running'
-  elapsed.value = 0
-  pressedFor.value = null
-
-  if (settings.timer.hideLayout) {
-    hideLayout.value = true
-  }
-
-  rafId = requestAnimationFrame(tick)
-}
-
-const stopTimer = (addTime: boolean = true) => {
-  if (actionLocked.value) return
-  actionLocked.value = true
-
-  if (rafId !== null) {
-    cancelAnimationFrame(rafId)
-    rafId = null
-  }
-
-  if (startTime.value) {
-    elapsed.value = performance.now() - startTime.value
-  }
-
-  if (addTime && state.value === 'running') {
-    const worstTime = getWorst(solves.value)?.time
-    if (
-      settings.timer.personalBestConfetti &&
-      worstTime &&
-      elapsed.value < worstTime
-    ) {
-      const colors = ['#006bb2', '#0880d1', '#098be2']
-      confetti({
-        particleCount: 150,
-        angle: 40,
-        spread: 55,
-        origin: { x: 0 },
-        colors: colors,
-        gravity: 2,
-        startVelocity: 70
-      })
-      confetti({
-        particleCount: 150,
-        angle: 140,
-        spread: 55,
-        origin: { x: 1 },
-        colors: colors,
-        gravity: 2,
-        startVelocity: 70
-      })
-    }
-
-    const solve: Solve = {
-      id: Math.floor(Math.random()),
-      time: elapsed.value,
-      scramble: scramble.value,
-      puzzle: settings.timer.puzzle,
-      plusTwo: currSolveState.value === '+2',
-      DNF: currSolveState.value === 'DNF',
-      date: Date.now(),
-      notes: ''
-    }
-    solves.value.push(solve)
-  }
-
-  state.value = 'not-ready'
-
-  if (hideLayout.value) {
-    hideLayout.value = false
-  }
-}
-
-const pressedTimestamp = ref<number | null>(null)
 
 const onKeyDown = (e: KeyboardEvent) => {
   if (UIStore.isModalOpen || e.code !== 'Space') return
   e.preventDefault()
 
-  if (!pressedTimestamp.value) {
-    pressedTimestamp.value = performance.now()
-  }
+  timer.keyDown()
 
-  pressedFor.value = performance.now() - pressedTimestamp.value
+  if (timer.state === 'running') {
+    const pb = getPB(solves.solves)
 
-  if (state.value === 'running') {
-    stopTimer()
+    timer.stopTimer(scramble.value)
+
+    const lastSolve = solves.solves[solves.solves.length - 1]
+    if (pb && lastSolve && lastSolve.time < pb.time) {
+      shootConfetti()
+    }
+
+    if (settings.timer.hideLayout) hideLayout.value = false
   }
 }
 
@@ -182,45 +63,39 @@ const onKeyUp = (e: KeyboardEvent) => {
   if (UIStore.isModalOpen || e.code !== 'Space') return
   e.preventDefault()
 
-  setTimeout(() => {
-    actionLocked.value = false
-  }, 50)
-
   if (
-    state.value === 'inspecting' &&
-    pressedFor.value &&
-    pressedFor.value >= settings.timer.freezeTime * 1000
+    timer.state === 'inspecting' &&
+    timer.pressedFor &&
+    timer.pressedFor >= settings.timer.freezeTime * 1000
   ) {
-    startTimer()
-  } else if (state.value === 'ready') {
-    if (settings.timer.inspection.enabled) {
-      startInspection()
-    } else {
-      startTimer()
-    }
+    timer.startTimer()
+    if (settings.timer.hideLayout) hideLayout.value = true
+  } else if (timer.state === 'ready') {
+    if (settings.timer.inspection.enabled) timer.startInspection()
+    else timer.startTimer()
+
+    if (settings.timer.hideLayout) hideLayout.value = true
   }
 
-  if (state.value === 'not-ready') {
-    state.value = 'ready'
+  if (timer.state === 'not-ready') {
+    timer.state = 'ready'
   }
 
-  pressedFor.value = null
-  pressedTimestamp.value = null
+  timer.keyUp()
 }
 
 const colorClass = computed(() => {
-  if (state.value === 'not-ready') {
-    return 'text-white'
-  }
+  if (timer.state === 'not-ready') return 'text-white'
 
-  if (pressedFor.value === null)
-    return state.value === 'inspecting' ? 'text-red-500' : 'text-white'
+  if (timer.pressedFor === null)
+    return timer.state === 'inspecting' ? 'text-red-500' : 'text-white'
 
-  if (state.value === 'ready' && pressedFor.value !== null)
+  if (
+    timer.state === 'ready' ||
+    timer.pressedFor >= settings.timer.freezeTime * 1000
+  )
     return `text-green-500`
-  if (pressedFor.value >= settings.timer.freezeTime * 1000)
-    return 'text-green-500'
-  if (pressedFor.value >= (settings.timer.freezeTime * 1000) / 2)
+  if (timer.pressedFor >= (settings.timer.freezeTime * 1000) / 2)
     return 'text-yellow-400'
 
   return 'text-red-500'
@@ -234,7 +109,6 @@ onMounted(() => {
 onUnmounted(() => {
   globalThis.removeEventListener('keydown', onKeyDown)
   globalThis.removeEventListener('keyup', onKeyUp)
-  stopTimer()
 })
 </script>
 <template>

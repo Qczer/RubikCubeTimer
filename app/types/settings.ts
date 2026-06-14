@@ -1,25 +1,5 @@
 import { type PuzzleKey } from './puzzles'
 
-export const defaultSettings: UserSettings = {
-  timer: {
-    session: 'New Session',
-    puzzle: '333',
-    decimalPoints: 2,
-    freezeTime: 2,
-    hideTime: false,
-    hideLayout: true,
-    zeroOutTime: false,
-    confirmDelete: false,
-    personalBestConfetti: true,
-    inspection: {
-      enabled: true,
-      time: 15,
-      autoStart: false
-      //playSound: false
-    }
-  }
-}
-
 export interface UserSettings {
   timer: {
     session: string

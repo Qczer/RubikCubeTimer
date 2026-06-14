@@ -3,11 +3,12 @@ import type { PuzzleKey } from '~/types/puzzles'
 import type { Solve } from '~/types/solve'
 
 export const createEmptySolves = (): Record<PuzzleKey, Solve[]> => {
-  const result = {} as Record<PuzzleKey, Solve[]>
+  const keys = Object.keys(puzzles) as PuzzleKey[]
 
-  for (const key of Object.keys(puzzles) as PuzzleKey[]) {
-    result[key] = []
-  }
+  const entries: [PuzzleKey, Solve[]][] = keys.map((key) => [
+    key,
+    [] as Solve[]
+  ])
 
-  return result
+  return Object.fromEntries(entries) as Record<PuzzleKey, Solve[]>
 }

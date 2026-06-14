@@ -2,7 +2,7 @@
 import type { Average, Solve } from '~/types/solve'
 import Card from '~/components/Timer/StatsPanel/Solves/Card/index.vue'
 
-const { solves } = useSolves()
+const solves = useSolvesStore()
 const showSolveCard = ref(false)
 const props = defineProps<{
   type: 'pb' | 'worst' | 'avg' | 'ao' | 'mo'
@@ -16,7 +16,7 @@ const isSolve = (value: Solve | Average): value is Solve => {
 }
 
 const getValue = (): null | Solve | Average => {
-  if (props.solvesCount && props.solvesCount > solves.value.length) return null
+  if (props.solvesCount && props.solvesCount > solves.solves.length) return null
 
   switch (props.type) {
     case 'pb':
@@ -33,7 +33,7 @@ const getValue = (): null | Solve | Average => {
 }
 
 const value = computed(() => getValue())
-const lastSolve = computed(() => solves.value.at(-1))
+const lastSolve = computed(() => solves.solves.at(-1))
 
 const displayValue = computed(() => {
   if (!value.value) return '-'
@@ -51,7 +51,7 @@ const displayValue = computed(() => {
 })
 
 const filteredSolves = computed(() => {
-  let newSolves = [...solves.value]
+  let newSolves = [...solves.solves]
 
   if ('isPb' in props && props.isPb) {
     newSolves.sort((a, b) => a.time - b.time)
