@@ -1,16 +1,66 @@
 # Rubik Cube Timer
-<h3>Strona główna - Timer
 
-![Rubik Cube Timer - Home](https://github.com/user-attachments/assets/3c118e13-53d7-444e-8aa4-f51d2486ff69)
+A modern speedcubing timer built with Nuxt and TypeScript.
 
-<h3>Stats
+## Features
 
-![Rubik Cube Timer - Stats](https://github.com/user-attachments/assets/06650a61-aa1c-4fb1-9d28-13e4f706e29a)
+- Fast and responsive timer
+- Multiple puzzle support
+- Session management
+- Statistics and personal best tracking
+- Scramble generation
+- Fully client-side data storage
+- No account required
 
-<h3>Solves
+## Self Hosting
 
-![Solves](https://github.com/user-attachments/assets/91b3d8f6-bcd0-4838-940d-082ad5352537)
+All data is stored locally in your browser using client-side storage. No external database or backend is required.
 
-<h3>Settings
+Because of this, you can easily host the project yourself on any static hosting platform such as Cloudflare Pages, Vercel, Netlify, GitHub Pages, or your own server.
 
-![Rubik Cube Timer - Settings](https://github.com/user-attachments/assets/f4a47a6b-e2e3-455d-8424-25a4ef8fa438)
+## Development
+
+### Requirements
+
+- Bun
+
+### Install dependencies
+
+```bash
+bun install
+```
+
+### Start development server
+
+```bash
+bun run dev
+```
+
+The application will be available at:
+
+```text
+http://localhost:3000
+```
+
+## Build for Production
+
+```bash
+bun run build
+```
+
+Preview the production build:
+
+```bash
+bun run preview
+```
+
+## Data Storage
+
+All solves, sessions, settings, and statistics are stored locally on the user's device. Nothing is sent to external servers unless you modify the application yourself.
+
+This means:
+
+- Your data stays on your device
+- No user accounts are required
+- The project can be hosted without a database
+- Anyone can self-host their own instance
