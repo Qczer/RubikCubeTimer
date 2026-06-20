@@ -6,8 +6,6 @@ export const formatTime = (
 ) => {
   if (DNF) return 'DNF'
 
-  console.log('MS: ', ms)
-
   const totalMs = plusTwo ? ms + 2000 : ms
   const s = (totalMs % 60000) / 1000
 

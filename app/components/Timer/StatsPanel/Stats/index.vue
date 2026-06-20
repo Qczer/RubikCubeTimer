@@ -3,7 +3,7 @@ import Card from './card.vue'
 </script>
 
 <template>
-  <div class="grid grow grid-cols-2 grid-rows-4 gap-1 px-2 py-3">
+  <div class="grid h-[100%] grow grid-cols-2 grid-rows-4 gap-1">
     <Card type="pb" :height="2" />
     <Card type="worst" />
     <Card type="avg" />

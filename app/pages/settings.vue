@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Header from '~/components/header.vue'
 import Setting from '~/components/Setting/index.vue'
 import {
   inspectionSettingKeys,
@@ -19,10 +20,7 @@ const inspectionLabelKey = (key: InspectionSettingKey) =>
 </script>
 <template>
   <div class="flex flex-col gap-4 p-8">
-    <div class="flex flex-col gap-2">
-      <h2 class="text-4xl font-bold">Settings</h2>
-      <div class="w-[70%] rounded-sm border-t border-t-[2px] border-zinc-700" />
-    </div>
+    <Header title="Settings" />
     <div v-if="section === 'timer'">
       <Setting
         v-for="key in timerSettingKeys"
