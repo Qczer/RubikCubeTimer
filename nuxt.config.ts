@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'Rubik Cube Timer',
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }]
+    }
+  },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: [
@@ -10,7 +16,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     'reka-ui',
-    'nuxt-svgo'
+    'nuxt-svgo',
+    'nuxt-lucide-icons'
   ],
   i18n: {
     locales: [
@@ -43,7 +50,8 @@ export default defineNuxtConfig({
         'cubing/puzzles',
         'cubing/scramble',
         'cubing/twisty',
-        'reka-ui'
+        'reka-ui',
+        'vue3-apexcharts'
       ]
     }
   }

@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { ArrowBigUpDash, Hash, Timer } from '@lucide/vue'
+import {
+  ArrowBigUpDash,
+  CircleAlert,
+  Hash,
+  Podium,
+  Timer,
+  TriangleAlert
+} from '@lucide/vue'
 
 defineProps<{
   title: string
-  value: string | number
+  value: string | number | null
   icon: keyof typeof icons
   color?: keyof typeof colors
 }>()
@@ -11,7 +18,10 @@ defineProps<{
 const icons = {
   number: Hash,
   time: Timer,
-  top: ArrowBigUpDash
+  top: ArrowBigUpDash,
+  DNF: CircleAlert,
+  plusTwo: TriangleAlert,
+  best: Podium
 }
 
 const colors = {
@@ -44,7 +54,7 @@ const colors = {
       class="text-4xl font-bold"
       :class="color ? colors[color].text : colors['gray'].text"
     >
-      {{ value }}
+      {{ value ?? '-' }}
     </p>
   </div>
 </template>
