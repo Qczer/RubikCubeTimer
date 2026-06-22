@@ -9,10 +9,7 @@ const props = withDefaults(defineProps<DonutChartProps>(), {
   normalize: false
 })
 
-/**
- * Jeśli normalize = true:
- * skaluje wartości do 100%
- */
+// If normalize = true: scale values to 100%
 function normalizeData(data: Record<string, number>) {
   const sum = Object.values(data).reduce((a, b) => a + b, 0)
 
@@ -50,7 +47,7 @@ const options = computed(() => ({
   },
 
   legend: {
-    position: 'bottom' as const,
+    position: 'right' as const,
     labels: {
       colors: '#fff'
     }
