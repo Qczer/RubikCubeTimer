@@ -20,7 +20,7 @@ defineProps<{
     :min="min"
     :max="max"
     :step="step"
-    class="bg-secondary inline-flex h-[35px] items-center rounded-lg"
+    class="bg-surface inline-flex h-8.75 items-center rounded-lg"
   >
     <NumberFieldDecrement class="px-3">
       <Icon name="radix-icons:minus" />

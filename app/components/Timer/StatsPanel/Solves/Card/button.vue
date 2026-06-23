@@ -12,8 +12,8 @@ const props = defineProps<{
 </script>
 <template>
   <button
-    class="flex items-center justify-center gap-1 rounded-md px-3 py-1.5 text-sm transition"
-    :class="active ? activeClass : 'bg-primary'"
+    class="bg-background flex items-center justify-center gap-1 rounded-md px-3 py-1.5 text-sm transition"
+    :class="active && activeClass"
     :disabled="disabled"
     @click="onClick"
   >
@@ -24,7 +24,9 @@ const props = defineProps<{
       class="invert"
       alt="Cuboid"
     />
-    <Copy v-else-if="icon === 'copy' && !active" :size="15" />
-    <Check v-else-if="icon === 'copy' && active" :size="15" />
+    <template v-else-if="icon === 'copy'">
+      <Copy v-if="!active" :size="15" />
+      <Check v-else :size="15" />
+    </template>
   </button>
 </template>

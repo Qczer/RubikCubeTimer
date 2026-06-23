@@ -3,17 +3,20 @@ import {
   ArrowBigUpDash,
   CircleAlert,
   Hash,
-  Podium,
+  Trophy,
   Timer,
   TriangleAlert
 } from '@lucide/vue'
 
-defineProps<{
+export type statsCardProp = {
   title: string
   value: string | number | null
   icon: keyof typeof icons
   color?: keyof typeof colors
-}>()
+  rowSpan?: boolean
+}
+
+defineProps<statsCardProp>()
 
 const icons = {
   number: Hash,
@@ -21,7 +24,7 @@ const icons = {
   top: ArrowBigUpDash,
   DNF: CircleAlert,
   plusTwo: TriangleAlert,
-  best: Podium
+  best: Trophy
 }
 
 const colors = {
@@ -40,7 +43,10 @@ const colors = {
 }
 </script>
 <template>
-  <div class="bg-secondary flex flex-col gap-2 rounded-2xl p-6">
+  <div
+    class="bg-surface flex flex-col gap-2 rounded-2xl p-6"
+    :class="rowSpan ? 'row-span-2' : ''"
+  >
     <div class="flex gap-2">
       <div
         class="flex h-7 w-7 items-center justify-center rounded-md"

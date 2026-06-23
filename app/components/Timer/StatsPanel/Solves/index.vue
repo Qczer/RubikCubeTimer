@@ -30,7 +30,7 @@ const getColor = (solve: Solve) => {
   <SolveCard v-if="solveRef" :solve="solveRef" @close="closeSolve" />
   <p
     v-if="solves.solves.length === 0"
-    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
   >
     No solves yet
   </p>
@@ -41,28 +41,28 @@ const getColor = (solve: Solve) => {
   >
     <span class="min-w-10 pr-1.5">{{ solves.solves.length - i }}.</span>
     <span
-      class="w-[150px] shrink-0 cursor-pointer text-green-500 hover:underline"
+      class="w-37.5 shrink-0 cursor-pointer text-green-500 transition hover:underline"
       :class="getColor(solve)"
       @click="showSolve(solve)"
       >{{ formatTime(solve.time, undefined, solve.plusTwo, solve.DNF) }}</span
     >
     <div class="flex w-full flex-row justify-end gap-2">
       <span
-        class="cursor-pointer text-sm font-bold hover:opacity-100"
+        class="cursor-pointer text-sm font-bold transition hover:opacity-100"
         :class="solve.plusTwo ? `${colors.plusTwo} opacity-100` : 'opacity-60'"
         @click="solves.togglePlusTwo(solve)"
       >
         +2
       </span>
       <span
-        class="cursor-pointer text-sm font-bold hover:opacity-100"
+        class="cursor-pointer text-sm font-bold transition hover:opacity-100"
         :class="solve.DNF ? `${colors.dnf} opacity-100` : 'opacity-60'"
         @click="solves.toggleDNF(solve)"
       >
         DNF
       </span>
       <X
-        class="cursor-pointer opacity-60 hover:opacity-100"
+        class="cursor-pointer opacity-60 transition hover:opacity-100"
         :size="20"
         @click="solves.removeSolve(solve)"
       />

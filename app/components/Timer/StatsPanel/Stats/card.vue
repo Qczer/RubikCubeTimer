@@ -71,7 +71,7 @@ const closeSolveCard = () => (showSolveCard.value = false)
 <template>
   <div
     v-if="showSolveCard"
-    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
   >
     <p v-for="(solve, i) in filteredSolves" :key="i">
       {{ i + 1 }}.
@@ -89,7 +89,7 @@ const closeSolveCard = () => (showSolveCard.value = false)
   />
 
   <div
-    class="bg-secondary relative flex min-h-[50px] rounded-lg p-1.5"
+    class="bg-surface relative flex min-h-12.5 rounded-lg p-1.5"
     :style="
       props.height
         ? { gridRow: `span ${props.height} / span ${props.height}` }
@@ -101,7 +101,7 @@ const closeSolveCard = () => (showSolveCard.value = false)
       {{ 'isPb' in props && props.isPb ? 'pb' : '' }}
     </span>
     <span
-      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer text-2xl font-bold"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer text-2xl font-bold"
       :class="{
         'text-4xl': props.height && props.height >= 2,
         'hover:underline': displayValue !== '-'

@@ -58,7 +58,7 @@ const createSession = () => {
 <template>
   <SelectRoot v-model="model" :default-value="defaultValue">
     <SelectTrigger
-      class="bg-secondary text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
+      class="bg-surface text-md inline-flex h-[35px] min-w-[35px] items-center justify-between gap-[5px] rounded-lg border border-none px-[15px] leading-none outline-none"
       aria-label="Customise options"
     >
       <SelectValue />
@@ -73,11 +73,11 @@ const createSession = () => {
 
     <SelectPortal>
       <SelectContent
-        class="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade bg-secondary z-[100] min-w-[25px] rounded-lg border shadow-sm will-change-[opacity,transform]"
+        class="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade bg-surface z-[100] min-w-[25px] rounded-lg border shadow-sm will-change-[opacity,transform]"
         :side-offset="5"
       >
         <SelectScrollUpButton
-          class="bg-secondary flex h-[25px] cursor-default items-center justify-center"
+          class="bg-surface flex h-[25px] cursor-default items-center justify-center"
         >
           <Icon name="radix-icons:chevron-up" />
         </SelectScrollUpButton>
@@ -87,7 +87,7 @@ const createSession = () => {
             <SelectItem
               v-for="(option, index) in options"
               :key="index"
-              class="text-md relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[35px] leading-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none"
+              class="text-md relative flex h-[25px] items-center rounded-[3px] pr-[35px] pl-[25px] leading-none select-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none"
               :value="option.value"
             >
               <SelectItemIndicator
@@ -102,7 +102,7 @@ const createSession = () => {
           </SelectGroup>
         </SelectViewport>
         <SelectScrollDownButton
-          class="bg-secondary flex h-[25px] cursor-default items-center justify-center"
+          class="bg-surface flex h-[25px] cursor-default items-center justify-center"
         >
           <Icon name="radix-icons:chevron-down" />
         </SelectScrollDownButton>

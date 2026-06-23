@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   app: {
     head: {
@@ -9,7 +11,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: [
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     '@nuxt/icon',
@@ -34,13 +35,14 @@ export default defineNuxtConfig({
       fallbackLocale: 'en'
     }
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/tailwind.css'],
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => tag === 'twisty-player'
     }
   },
   vite: {
+    plugins: [tailwindcss()],
     optimizeDeps: {
       include: [
         '@lucide/vue',

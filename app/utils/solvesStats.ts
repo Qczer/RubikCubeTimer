@@ -57,6 +57,36 @@ const allSolves = computed(() => {
   return sessions.flatMap((s) => Object.values(s.solves)).flat()
 })
 
+export const allPuzzles = computed(() => {
+  const { sessions } = useSessionsStore()
+
+  const result = {} as Record<PuzzleKey, Solve[]>
+
+  for (const session of sessions) {
+    for (const [puzzle, solves] of Object.entries(session.solves)) {
+      if (!solves.length) continue
+
+      const key = puzzle as PuzzleKey
+      result[key] ??= []
+      result[key].push(...solves)
+    }
+  }
+
+  return Object.fromEntries(
+    Object.entries(result)
+      .filter(([, solves]) => solves.length > 0)
+      .sort((a, b) => b[1].length - a[1].length)
+  ) as Record<PuzzleKey, Solve[]>
+})
+
+export const sortedPuzzleKeys = computed(() => {
+  const puzzles = allPuzzles.value
+
+  return Object.entries(puzzles)
+    .sort((a, b) => b[1].length - a[1].length)
+    .map(([key]) => key as PuzzleKey)
+})
+
 export const bestSolve = computed(() => {
   const valid = allSolves.value.filter((s) => !s.DNF)
   if (!valid.length) return null

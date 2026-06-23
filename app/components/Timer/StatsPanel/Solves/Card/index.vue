@@ -43,12 +43,12 @@ onUnmounted(() => (UIStore.isModalOpen = false))
     @click="emit('close')"
   >
     <div
-      class="bg-secondary relative flex min-h-[500px] flex-col items-center gap-5 rounded-2xl px-10 py-5 text-center"
+      class="bg-surface relative flex min-h-125 flex-col items-center gap-5 rounded-2xl px-10 py-5 text-center"
       @click.stop
     >
       <button
         @click="emit('close')"
-        class="absolute right-4 top-4 rounded-md text-white transition hover:bg-zinc-700"
+        class="absolute top-4 right-4 rounded-md text-white transition hover:bg-zinc-700"
       >
         <X :size="24" />
       </button>
@@ -90,19 +90,19 @@ onUnmounted(() => (UIStore.isModalOpen = false))
         </div>
       </div>
       <p>{{ formatDate(solve.date) }}</p>
-      <div class="w-full rounded-sm border-t border-t-[2px] border-zinc-700" />
+      <div class="w-full rounded-sm border-t-2 border-zinc-700" />
       <div class="flex flex-col items-center gap-2 p-1">
         <div class="flex w-full gap-2">
           <button
             class="text-md rounded-md px-4 py-2 transition"
-            :class="active === 'scramble' ? 'bg-blue-600' : 'bg-primary'"
+            :class="active === 'scramble' ? 'bg-blue-600' : 'bg-background'"
             @click="active = 'scramble'"
           >
             Scramble
           </button>
           <button
             class="text-md rounded-md px-4 py-2 transition"
-            :class="active === 'notes' ? 'bg-blue-600' : 'bg-primary'"
+            :class="active === 'notes' ? 'bg-blue-600' : 'bg-background'"
             @click="active = 'notes'"
           >
             Notes
@@ -122,7 +122,7 @@ onUnmounted(() => (UIStore.isModalOpen = false))
           />
           <input
             :disabled="!editing"
-            class="text-md h-full w-[90%] w-full rounded-lg bg-transparent px-1 py-0.5 text-center ring-zinc-700 transition"
+            class="text-md h-full w-full rounded-lg bg-transparent px-1 py-0.5 text-center ring-zinc-700 transition"
             :class="editing ? 'ring-2' : ''"
             v-model="solve.scramble"
           />
@@ -132,12 +132,13 @@ onUnmounted(() => (UIStore.isModalOpen = false))
             :active="copyActive"
             :activeClass="'bg-white text-black'"
             :onClick="CopyScramble"
+            :disabled="copyActive"
           />
         </div>
         <div v-if="active === 'notes'" class="w-full">
           <textarea
             v-model="solve.notes"
-            class="bg-primary w-[80%] resize-none rounded-lg p-1"
+            class="bg-background w-[80%] resize-none rounded-lg p-1"
             :rows="6"
           />
         </div>

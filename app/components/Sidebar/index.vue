@@ -5,7 +5,7 @@ const hideLayout = useState('hide-layout')
 <template>
   <div
     v-if="!hideLayout"
-    class="bg-secondary sticky top-0 flex h-screen w-[15%] flex-col rounded-2xl p-5"
+    class="bg-surface sticky top-0 flex h-screen w-[15%] flex-col rounded-2xl p-5"
   >
     <h2 class="text-lg font-bold">Rubik Cube Timer</h2>
     <div class="flex flex-col gap-2 pt-5">
