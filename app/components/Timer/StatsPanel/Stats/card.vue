@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { Average, Solve } from '~/types/solve'
-import Card from '~/components/Timer/StatsPanel/Solves/Card/index.vue'
+import SolveCard from '~/components/Timer/StatsPanel/Solves/Card/solveCard.vue'
+import AverageCard from '~/components/Timer/StatsPanel/Solves/Card/averageCard.vue'
+import type { PuzzleKey } from '~/types/puzzles'
 
 const solves = useSolvesStore()
 const showSolveCard = ref(false)
 const props = defineProps<{
   type: 'pb' | 'worst' | 'avg' | 'ao' | 'mo'
+  puzzle: PuzzleKey
   solvesCount?: number
   isPb?: true
   height?: number
@@ -69,22 +72,27 @@ const toggleSolveCard = () => (showSolveCard.value = !showSolveCard.value)
 const closeSolveCard = () => (showSolveCard.value = false)
 </script>
 <template>
-  <div
-    v-if="showSolveCard"
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
-  >
-    <p v-for="(solve, i) in filteredSolves" :key="i">
-      {{ i + 1 }}.
-      {{ formatTime(solve.time, undefined, solve.plusTwo, solve.DNF) }}
-    </p>
-  </div>
-  <Card
+  <SolveCard
     v-if="
       showSolveCard &&
       lastSolve &&
       (props.type === 'pb' || props.type === 'worst')
     "
     :solve="lastSolve"
+    @close="closeSolveCard"
+  />
+  <AverageCard
+    v-else-if="
+      showSolveCard &&
+      value &&
+      'solves' in value &&
+      props.type !== 'pb' &&
+      props.type !== 'worst'
+    "
+    :average="value"
+    :puzzle="puzzle"
+    :isPb="isPb"
+    :solvesCount="solvesCount"
     @close="closeSolveCard"
   />
 

@@ -5,7 +5,7 @@ import type { DonutChartProps } from '~/types/donut.ts'
 import VueApexCharts from 'vue3-apexcharts'
 
 const props = withDefaults(defineProps<DonutChartProps>(), {
-  height: 300,
+  height: '100%',
   normalize: false
 })
 

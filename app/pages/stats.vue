@@ -22,7 +22,7 @@ const active = ref<'All' | PuzzleKey>('All')
         :setActive="() => (active = puzzle)"
       />
     </div>
-    <div class="grid grid-cols-2 gap-12">
+    <div class="grid grid-cols-2 items-stretch gap-12">
       <All v-if="active === 'All'" />
       <Puzzle v-else :puzzle="active" :solves="allPuzzles[active]" />
     </div>

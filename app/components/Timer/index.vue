@@ -114,7 +114,7 @@ onUnmounted(() => {
 <template>
   <div class="relative flex flex-1 items-center justify-center">
     <h2
-      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none text-center text-[15rem]"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem] select-none"
       :class="colorClass"
     >
       {{ displayTime }}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DonutChart from '~/components/Stats/donutChart.vue'
 import puzzles from '~/types/puzzles'
-import Group from '../group.vue'
+import Section from '../section.vue'
 import type { statsCardProp } from '../card.vue'
 
 const overviewCards: statsCardProp[] = [
@@ -53,11 +53,11 @@ const moreStatsCards: statsCardProp[] = [
 ]
 </script>
 <template>
-  <Group header="Overview" :cards="overviewCards" />
-  <Group header="Event Distribution">
-    <div class="bg-surface rounded-2xl p-2">
-      <DonutChart :data="eventDistribution" />
+  <Section header="Overview" :cards="overviewCards" />
+  <Section header="Event Distribution">
+    <div class="bg-surface h-full w-full rounded-2xl p-2">
+      <DonutChart :data="eventDistribution" height="100%" />
     </div>
-  </Group>
-  <Group header="More Stats" :cards="moreStatsCards" />
+  </Section>
+  <Section header="More Stats" :cards="moreStatsCards" />
 </template>
