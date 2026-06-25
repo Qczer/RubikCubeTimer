@@ -82,7 +82,7 @@ export const settingsSchema = {
       value
     }))
   },
-  freezeTime: { type: 'number' },
+  freezeTime: { type: 'number', min: 0 },
   hideTime: { type: 'boolean' },
   hideLayout: { type: 'boolean' },
   zeroOutTime: { type: 'boolean' },

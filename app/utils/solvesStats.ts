@@ -2,6 +2,19 @@ import type { PuzzleKey } from '~/types/puzzles'
 import puzzles from '~/types/puzzles'
 import type { Average, Solve } from '~/types/solve'
 
+export const getDNFOrSolveTime = (solve: Solve): number | 'DNF' => {
+  if (solve.DNF) return 'DNF'
+  return solve.plusTwo ? solve.time + 2000 : solve.time
+}
+
+export const getSolveTime = (solve: Solve): number => {
+  return solve.plusTwo ? solve.time + 2000 : solve.time
+}
+const normalizeTime = (solve: Solve): number => {
+  const t = getDNFOrSolveTime(solve)
+  return t === 'DNF' ? Infinity : t
+}
+
 /*
 
   Timer
@@ -12,38 +25,60 @@ export const getPB = (solves: Solve[]): Solve | null => {
   const valid = solves.filter((s) => !s.DNF)
   if (valid.length === 0) return null
 
-  return valid.reduce((best, current) => {
-    const currentTime = current.plusTwo ? current.time + 2000 : current.time
-    const bestTime = best.plusTwo ? best.time + 2000 : best.time
-    return currentTime < bestTime ? current : best
-  })
+  return valid.reduce((best, current) =>
+    normalizeTime(current) < normalizeTime(best) ? current : best
+  )
 }
 
 export const getWorst = (solves: Solve[]): Solve | null => {
   const valid = solves.filter((s) => !s.DNF)
   if (valid.length === 0) return null
 
-  return valid.reduce((worst, current) => {
-    const currentTime = current.plusTwo ? current.time + 2000 : current.time
-    const bestTime = worst.plusTwo ? worst.time + 2000 : worst.time
-    return currentTime > bestTime ? current : worst
-  })
+  return valid.reduce((worst, current) =>
+    normalizeTime(current) > normalizeTime(worst) ? current : worst
+  )
 }
 
 // Get Average Of - excludes the best and worst solve
 export const getAO = (solves: Solve[]): Average | null => {
-  if (solves.length === 0) return null
+  if (solves.length < 3) return null
 
-  const solvesLeft = [...solves].sort((a, b) => a.time - b.time).slice(1, -1)
-  return getMO(solvesLeft)
+  const sorted = [...solves].sort((a, b) => normalizeTime(a) - normalizeTime(b))
+
+  const middle = sorted.slice(1, -1)
+
+  if (middle.some((s) => s.DNF)) {
+    return {
+      time: Infinity,
+      solves,
+      date: solves.at(-1)!.date
+    }
+  }
+
+  const sum = middle.reduce((acc, s) => acc + getSolveTime(s), 0)
+
+  return { time: sum / middle.length, solves, date: solves.at(-1)!.date }
 }
 
 // Get Mean Of - includes all solves
 export const getMO = (solves: Solve[]): Average | null => {
   if (solves.length === 0) return null
 
-  const sum = solves.reduce((a, b) => a + b.time, 0)
-  return { time: sum / solves.length, solves }
+  if (solves.some((s) => s.DNF)) {
+    return {
+      time: Infinity,
+      solves,
+      date: solves.at(-1)!.date
+    }
+  }
+
+  const sum = solves.reduce((acc, s) => acc + getSolveTime(s), 0)
+
+  return {
+    time: sum / solves.length,
+    solves,
+    date: solves.at(-1)!.date
+  }
 }
 
 /*
@@ -52,7 +87,7 @@ export const getMO = (solves: Solve[]): Average | null => {
 
 */
 
-const allSolves = computed(() => {
+export const allSolves = computed(() => {
   const { sessions } = useSessionsStore()
   return sessions.flatMap((s) => Object.values(s.solves)).flat()
 })
@@ -87,32 +122,30 @@ export const sortedPuzzleKeys = computed(() => {
     .map(([key]) => key as PuzzleKey)
 })
 
-export const bestSolve = computed(() => {
-  const valid = allSolves.value.filter((s) => !s.DNF)
+export const getBestSolveTime = (solves: Solve[]) => {
+  const valid = solves.filter((s) => !s.DNF)
   if (!valid.length) return null
-  return Math.min(...valid.map((s) => s.time))
-})
+  return Math.min(...valid.map((s) => normalizeTime(s)))
+}
 
-export const firstSolve = computed(() => {
-  return (
-    allSolves.value.slice().sort((a, b) => a.date - b.date)[0]?.time ?? null
-  )
-})
+export const getFirstSolveTime = (solves: Solve[]) => {
+  return solves.slice().sort((a, b) => a.date - b.date)[0] ?? null
+}
 
-export const dnfCount = computed(() => {
-  return allSolves.value.filter((s) => s.DNF).length
-})
+export const getDNFCount = (solves: Solve[]) => {
+  return solves.filter((s) => s.DNF).length
+}
 
-export const plusTwoCount = computed(() => {
-  return allSolves.value.filter((s) => s.plusTwo).length
-})
+export const getPlusTwoCount = (solves: Solve[]) => {
+  return solves.filter((s) => s.plusTwo).length
+}
 
 export const totalTime = () => {
   const { sessions } = useSessionsStore()
   return sessions.reduce((sessionSum, session) => {
     const sessionTime = Object.values(session.solves)
       .flat()
-      .reduce((solveSum, solve) => solveSum + solve.time, 0)
+      .reduce((solveSum, solve) => solveSum + getSolveTime(solve), 0)
 
     return sessionSum + sessionTime
   }, 0)
@@ -153,7 +186,7 @@ export const bestEvent = (): PuzzleKey | null => {
     for (const [event, solves] of Object.entries(session.solves)) {
       const key = event as PuzzleKey
 
-      const times = solves.map((s) => s.time)
+      const times = solves.map((s) => getSolveTime(s))
       if (times.length === 0) continue
 
       if (!eventStats.has(key)) {

@@ -3,6 +3,7 @@ import type { PuzzleKey } from '~/types/puzzles'
 import Section from '../section.vue'
 import type { Solve } from '~/types/solve.js'
 import type { statsCardProp } from '../card.vue'
+import LineChart from '../lineChart.vue'
 
 const props = defineProps<{
   puzzle: PuzzleKey
@@ -28,7 +29,7 @@ const cards = computed((): statsCardProp[] => {
   return [
     {
       title: 'Single PB',
-      value: formatTime(pb.time),
+      value: formatTime(getSolveTime(pb)),
       date: pb.date,
       puzzle: pb.puzzle,
       scramble: pb.scramble,
@@ -50,6 +51,29 @@ const cards = computed((): statsCardProp[] => {
     }
   ]
 })
+
+const first = computed(() => getFirstSolveTime(props.solves))
+const dnfCount = computed(() => getDNFCount(props.solves))
+const plusTwoCount = computed(() => getPlusTwoCount(props.solves))
+
+const moreStatsCards = computed((): statsCardProp[] => [
+  {
+    title: 'First Solve',
+    value: first.value ? formatTime(getSolveTime(first.value)) : null,
+    icon: 'time',
+    rowSpan: true
+  },
+  {
+    title: 'DNFs',
+    value: dnfCount.value,
+    icon: 'DNF'
+  },
+  {
+    title: '+2s',
+    value: plusTwoCount.value,
+    icon: 'best'
+  }
+])
 </script>
 
 <template>
@@ -70,4 +94,10 @@ const cards = computed((): statsCardProp[] => {
       </div>
     </div>
   </Section>
+  <Section header="Solve Times">
+    <div class="bg-surface h-full w-full rounded-2xl p-2">
+      <LineChart :data="solves" height="100%" />
+    </div>
+  </Section>
+  <Section header="More Stats" :cards="moreStatsCards" />
 </template>

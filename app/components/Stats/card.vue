@@ -76,7 +76,7 @@ const colors = {
     </div>
     <p v-if="date" class="flex items-center gap-1 text-sm font-bold opacity-90">
       <calendar :size="16" />
-      {{ formatDate(date, 'numerical') }}
+      {{ formatDate(date, true) }}
     </p>
   </div>
 </template>

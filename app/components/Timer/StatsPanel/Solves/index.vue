@@ -15,9 +15,9 @@ const showSolve = (solve: Solve) => (solveRef.value = solve)
 const closeSolve = () => (solveRef.value = null)
 
 const colors = {
-  dnf: 'text-red-500',
-  plusTwo: 'text-orange-500',
-  green: 'text-green-500'
+  dnf: 'text-dnf',
+  plusTwo: 'text-plusTwo',
+  green: 'text-green'
 }
 
 const getColor = (solve: Solve) => {
@@ -42,7 +42,7 @@ const getColor = (solve: Solve) => {
     >
       <span class="min-w-10 pr-1.5">{{ solves.solves.length - i }}.</span>
       <span
-        class="w-37.5 shrink-0 cursor-pointer text-green-500 transition hover:underline"
+        class="w-37.5 shrink-0 cursor-pointer transition hover:underline"
         :class="getColor(solve)"
         @click="showSolve(solve)"
         >{{ formatTime(solve.time, undefined, solve.plusTwo, solve.DNF) }}</span

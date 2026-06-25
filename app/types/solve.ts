@@ -14,4 +14,5 @@ export interface Solve {
 export interface Average {
   time: number
   solves: Solve[]
+  date: number
 }

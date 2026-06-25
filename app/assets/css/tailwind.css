@@ -4,6 +4,10 @@
   --color-background: #121212;
   --color-surface: #1f1f1f;
   --color-foreground: #ffffff;
+
+  --color-dnf: theme(colors.red.500);
+  --color-plusTwo: theme(colors.orange.500);
+  --color-green: theme(colors.green.500);
 }
 
 @layer base {

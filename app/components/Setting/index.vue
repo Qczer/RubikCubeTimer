@@ -43,7 +43,7 @@ const shouldShowChildren = computed(() => !props.section || booleanModel.value)
 <template>
   <div
     class="flex flex-col gap-2 py-5"
-    :class="!isChild ? 'border-b border-b-2 border-zinc-700' : ''"
+    :class="!isChild ? 'border-b border-zinc-700' : ''"
   >
     <div class="flex justify-between">
       <div class="flex flex-col gap-2">

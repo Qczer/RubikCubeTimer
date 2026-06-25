@@ -4,7 +4,7 @@ export const formatTime = (
   plusTwo?: boolean,
   DNF?: boolean
 ) => {
-  if (DNF) return 'DNF'
+  if (DNF || ms === Infinity) return 'DNF'
 
   const totalMs = plusTwo ? ms + 2000 : ms
   const s = (totalMs % 60000) / 1000
@@ -37,12 +37,15 @@ export const formatTime = (
   return `${seconds}${msPart}`
 }
 
-export const formatDate = (
-  date: number,
-  format?: 'normal' | 'numerical'
-): string => {
+export const formatDate = (date: number, numerical?: boolean): string => {
   let formatted
-  if (!format || format === 'normal') {
+  if (numerical) {
+    formatted = new Intl.DateTimeFormat('pl-PL', {
+      day: 'numeric',
+      month: '2-digit',
+      year: 'numeric'
+    }).format(date)
+  } else {
     formatted = new Intl.DateTimeFormat('en-US', {
       month: 'long',
       day: 'numeric',
@@ -51,12 +54,6 @@ export const formatDate = (
       minute: '2-digit',
       hour12: true
     }).format(new Date(date))
-  } else {
-    formatted = new Intl.DateTimeFormat('pl-PL', {
-      day: 'numeric',
-      month: '2-digit',
-      year: 'numeric'
-    }).format(date)
   }
   return formatted
 }
