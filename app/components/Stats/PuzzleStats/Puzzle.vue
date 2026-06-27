@@ -29,10 +29,7 @@ const cards = computed((): statsCardProp[] => {
   return [
     {
       title: 'Single PB',
-      value: formatTime(getSolveTime(pb)),
-      date: pb.date,
-      puzzle: pb.puzzle,
-      scramble: pb.scramble,
+      value: pb,
       icon: 'best',
       color: 'green',
       rowSpan: true
@@ -52,14 +49,14 @@ const cards = computed((): statsCardProp[] => {
   ]
 })
 
-const first = computed(() => getFirstSolveTime(props.solves))
+const first = computed(() => getFirstSolve(props.solves))
 const dnfCount = computed(() => getDNFCount(props.solves))
 const plusTwoCount = computed(() => getPlusTwoCount(props.solves))
 
 const moreStatsCards = computed((): statsCardProp[] => [
   {
     title: 'First Solve',
-    value: first.value ? formatTime(getSolveTime(first.value)) : null,
+    value: first.value,
     icon: 'time',
     rowSpan: true
   },

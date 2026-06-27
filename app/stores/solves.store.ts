@@ -46,7 +46,5 @@ export const useSolvesStore = defineStore('solves', {
     toggleDNF(solve: Solve) {
       solve.DNF = !solve.DNF
     }
-  },
-
-  persist: true
+  }
 })

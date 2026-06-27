@@ -20,6 +20,9 @@ export default defineNuxtConfig({
     'nuxt-svgo',
     'nuxt-lucide-icons'
   ],
+  piniaPersistedstate: {
+    storage: 'localStorage'
+  },
   i18n: {
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.ts', name: 'English' },

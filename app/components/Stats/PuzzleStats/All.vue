@@ -29,30 +29,30 @@ const overviewCards: statsCardProp[] = [
   }
 ]
 
-const best = getBestSolveTime(allSolves.value)
-const first = getFirstSolveTime(allSolves.value)
-const dnfCount = getDNFCount(allSolves.value)
-const plusTwoCount = getPlusTwoCount(allSolves.value)
+const best = computed(() => getBestSolve(allSolves.value))
+const first = computed(() => getFirstSolve(allSolves.value))
+const dnfCount = computed(() => getDNFCount(allSolves.value))
+const plusTwoCount = computed(() => getPlusTwoCount(allSolves.value))
 
 const moreStatsCards: statsCardProp[] = [
   {
     title: 'Best Solve',
-    value: best ? formatTime(best) : null,
+    value: best.value ?? null,
     icon: 'best'
   },
   {
     title: 'First Solve',
-    value: first ? formatTime(getSolveTime(first)) : null,
+    value: first.value ?? null,
     icon: 'time'
   },
   {
     title: 'DNFs',
-    value: dnfCount,
+    value: dnfCount.value,
     icon: 'DNF'
   },
   {
     title: '+2s',
-    value: plusTwoCount,
+    value: plusTwoCount.value,
     icon: 'best'
   }
 ]

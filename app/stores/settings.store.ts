@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { type UserSettings } from '~/types/settings'
 
-export const useSettingsStore = defineStore('store', {
+export const useSettingsStore = defineStore('settings', {
   state: (): UserSettings => ({
     timer: {
       session: 'New Session',
@@ -21,5 +21,6 @@ export const useSettingsStore = defineStore('store', {
       }
     }
   }),
+
   persist: true
 })

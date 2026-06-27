@@ -97,9 +97,7 @@ onUnmounted(() => (UIStore.isModalOpen = false))
               class="w-37.5 shrink-0 cursor-pointer transition hover:underline"
               :class="getColor(solve)"
               @click="showSolve(solve)"
-              >{{
-                formatTime(solve.time, undefined, solve.plusTwo, solve.DNF)
-              }}</span
+              >{{ formatSolveTime(solve) }}</span
             >
             <div class="flex w-full flex-row justify-end gap-2">
               <span

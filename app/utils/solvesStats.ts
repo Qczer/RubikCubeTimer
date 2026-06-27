@@ -122,13 +122,16 @@ export const sortedPuzzleKeys = computed(() => {
     .map(([key]) => key as PuzzleKey)
 })
 
-export const getBestSolveTime = (solves: Solve[]) => {
+export const getBestSolve = (solves: Solve[]) => {
   const valid = solves.filter((s) => !s.DNF)
   if (!valid.length) return null
-  return Math.min(...valid.map((s) => normalizeTime(s)))
+
+  return valid.reduce((best, current) =>
+    normalizeTime(current) < normalizeTime(best) ? current : best
+  )
 }
 
-export const getFirstSolveTime = (solves: Solve[]) => {
+export const getFirstSolve = (solves: Solve[]) => {
   return solves.slice().sort((a, b) => a.date - b.date)[0] ?? null
 }
 

@@ -94,6 +94,7 @@ export const useTimerStore = defineStore('timer', {
       }
 
       this.state = 'not-ready'
+      this.currSolveState = null
     },
 
     keyDown() {

@@ -14,10 +14,6 @@ const props = defineProps<{
   height?: number
 }>()
 
-const isSolve = (value: Solve | Average): value is Solve => {
-  return 'scramble' in value
-}
-
 const getValue = (): null | Solve | Average => {
   if (props.solvesCount && props.solvesCount > solves.solves.length) return null
 
@@ -42,12 +38,7 @@ const displayValue = computed(() => {
   if (!value.value) return '-'
 
   if (isSolve(value.value)) {
-    return formatTime(
-      value.value.time,
-      undefined,
-      value.value.plusTwo,
-      value.value.DNF
-    )
+    return formatSolveTime(value.value)
   }
 
   return formatTime(value.value.time)

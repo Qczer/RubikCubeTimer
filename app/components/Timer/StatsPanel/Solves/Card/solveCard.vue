@@ -71,7 +71,7 @@ onUnmounted(() => (UIStore.isModalOpen = false))
       </div>
       <div class="flex flex-col gap-4">
         <h2 class="text-5xl">
-          {{ formatTime(solve.time, 2, solve.plusTwo, solve.DNF) }}
+          {{ formatSolveTime(solve) }}
         </h2>
         <div class="flex gap-2">
           <Button text="3x3" icon="cube" disabled />
@@ -113,7 +113,7 @@ onUnmounted(() => (UIStore.isModalOpen = false))
           :class="active === 'scramble' ? '' : 'invisible h-0'"
         >
           <twisty-player
-            :puzzle="twistyPlayerPuzzles[settings.timer.puzzle]"
+            :puzzle="twistyPlayerPuzzles[solve.puzzle]"
             :alg="solve.scramble"
             hintFacelets="none"
             background="none"

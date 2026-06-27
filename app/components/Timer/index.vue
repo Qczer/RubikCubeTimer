@@ -10,17 +10,12 @@ const hideLayout = useState('hide-layout', () => false)
 const displayTime = computed(() => {
   if (timer.state === 'ready') {
     if (settings.timer.zeroOutTime || solves.solves.length === 0) {
-      return formatTime(0, settings.timer.decimalPoints)
+      return formatTime(0)
     }
 
     const last = solves.solves[solves.solves.length - 1]
     if (last) {
-      return formatTime(
-        last.time,
-        settings.timer.decimalPoints,
-        last.plusTwo,
-        last.DNF
-      )
+      return formatSolveTime(last)
     }
   }
 
@@ -36,7 +31,7 @@ const displayTime = computed(() => {
   }
 
   if (settings.timer.hideTime) return 'solve'
-  return formatTime(timer.elapsed, settings.timer.decimalPoints)
+  return formatTime(timer.elapsed)
 })
 
 const onKeyDown = (e: KeyboardEvent) => {
