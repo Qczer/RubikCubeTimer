@@ -5,6 +5,8 @@ const route = useRoute()
 
 const props = defineProps<{
   text: 'timer' | 'stats' | 'solves' | 'sessions' | 'settings'
+  showText?: boolean
+  invert?: boolean
 }>()
 
 const icons = {
@@ -24,10 +26,17 @@ const isActive = computed(() => {
 <template>
   <NuxtLink
     :to="props.text === 'timer' ? '/' : `/${props.text}`"
-    class="flex w-full items-center gap-4 rounded-lg p-2 text-lg capitalize transition-opacity"
+    class="inline-flex w-full items-center gap-1 rounded-lg p-2 capitalize transition-opacity md:gap-4"
     :class="!isActive ? 'opacity-40 hover:opacity-100' : ''"
   >
-    <component :is="icons[props.text]" v-if="icons[props.text]" />
-    {{ text }}
+    <component :is="icons[props.text]" v-if="!invert && icons[props.text]" />
+    <span class="lg:block lg:text-lg" :class="showText ? 'block' : 'hidden'">
+      {{ text }}
+    </span>
+    <component
+      :is="icons[props.text]"
+      v-if="invert && icons[props.text]"
+      :size="14"
+    />
   </NuxtLink>
 </template>

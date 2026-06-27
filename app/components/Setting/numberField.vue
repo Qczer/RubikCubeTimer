@@ -22,11 +22,13 @@ defineProps<{
     :step="step"
     class="bg-surface inline-flex h-8.75 items-center rounded-lg"
   >
-    <NumberFieldDecrement class="px-3">
+    <NumberFieldDecrement class="px-1 sm:px-3">
       <Icon name="radix-icons:minus" />
     </NumberFieldDecrement>
-    <NumberFieldInput class="w-14 bg-transparent text-center outline-none" />
-    <NumberFieldIncrement class="px-3">
+    <NumberFieldInput
+      class="w-5 bg-transparent text-center outline-none sm:w-14"
+    />
+    <NumberFieldIncrement class="px-1 sm:px-3">
       <Icon name="radix-icons:plus" />
     </NumberFieldIncrement>
   </NumberFieldRoot>

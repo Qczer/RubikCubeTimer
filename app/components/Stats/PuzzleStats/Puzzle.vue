@@ -32,6 +32,7 @@ const cards = computed((): statsCardProp[] => {
       value: pb,
       icon: 'best',
       color: 'green',
+      showDate: true,
       rowSpan: true
     },
     {
@@ -58,6 +59,7 @@ const moreStatsCards = computed((): statsCardProp[] => [
     title: 'First Solve',
     value: first.value,
     icon: 'time',
+    showDate: true,
     rowSpan: true
   },
   {

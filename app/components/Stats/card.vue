@@ -16,6 +16,7 @@ export type statsCardProp = {
   value: Solve | string | number | null
   icon: keyof typeof icons
   color?: keyof typeof colors
+  showDate?: boolean
   rowSpan?: boolean
 }
 
@@ -56,7 +57,7 @@ const closeSolveCard = () => (showSolveCard.value = false)
     @close="closeSolveCard"
   />
   <div
-    class="bg-surface relative flex h-full w-full min-w-0 flex-col justify-between gap-2 rounded-2xl p-8"
+    class="bg-surface group relative flex h-full w-full min-w-0 flex-col justify-between gap-2 rounded-2xl p-4 sm:p-8"
     :class="rowSpan ? 'row-span-2' : ''"
   >
     <div class="flex flex-col gap-2 select-none">
@@ -83,7 +84,7 @@ const closeSolveCard = () => (showSolveCard.value = false)
       </span>
       <span
         v-else
-        class="cursor-pointer font-bold hover:underline"
+        class="cursor-pointer font-bold group-hover:underline"
         :class="[
           color ? colors[color].text : colors['gray'].text,
           rowSpan
@@ -96,7 +97,7 @@ const closeSolveCard = () => (showSolveCard.value = false)
       </span>
     </div>
     <p
-      v-if="isSolve(value)"
+      v-if="isSolve(value) && showDate"
       class="flex items-center gap-1 text-sm font-bold opacity-90"
     >
       <calendar :size="16" />

@@ -1,5 +1,5 @@
 <template>
-  <main class="flex">
+  <main class="flex flex-col md:flex-row">
     <Sidebar />
     <slot />
   </main>

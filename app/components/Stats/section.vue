@@ -9,25 +9,23 @@ const props = defineProps<{
 <template>
   <div class="flex h-90 w-full flex-col gap-4">
     <div class="flex h-12 shrink-0 items-center">
-      <h2 class="text-3xl font-bold leading-none">{{ header }}</h2>
+      <h2 class="text-3xl leading-none font-bold">{{ header }}</h2>
     </div>
     <div
       v-if="cards"
-      class="grid min-h-0 flex-1 w-full grid-cols-2 grid-rows-2 gap-4"
+      class="grid min-h-0 w-full flex-1 grid-cols-2 grid-rows-2 gap-4"
     >
       <StatsCard
         v-for="card in cards"
         :title="card.title"
         :value="card.value"
-        :date="card.date"
-        :puzzle="card.puzzle"
-        :scramble="card.scramble"
+        :showDate="card.showDate"
         :icon="card.icon"
         :color="card.color"
-        :row-span="card.rowSpan"
+        :rowSpan="card.rowSpan"
       />
     </div>
-    <div v-else class="min-h-0 flex-1 w-full">
+    <div v-else class="min-h-0 w-full flex-1">
       <slot />
     </div>
   </div>
