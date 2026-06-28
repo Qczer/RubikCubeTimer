@@ -18,7 +18,7 @@ export const formatTime = (
   DNF?: boolean
 ) => {
   if (DNF || ms === Infinity) return 'DNF'
-  if (!decimalPoints) {
+  if (decimalPoints === undefined) {
     const { timer } = useSettingsStore()
     decimalPoints = timer.decimalPoints
   }
@@ -50,7 +50,7 @@ export const formatSolveTime = (
   decimalPoints?: decimalPoints
 ) => {
   if (solve.DNF || solve.time === Infinity) return 'DNF'
-  if (!decimalPoints) {
+  if (decimalPoints === undefined) {
     const { timer } = useSettingsStore()
     decimalPoints = timer.decimalPoints
   }

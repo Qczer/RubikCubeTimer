@@ -21,21 +21,17 @@ const displayTime = computed(() => {
 
   if (timer.state === 'inspecting') {
     if (timer.currSolveState === '+2') return '+2'
+    if (timer.currSolveState === 'DNF') return 'DNF'
 
-    return formatTime(
-      settings.timer.inspection.time * 1000 - timer.elapsed,
-      0,
-      false,
-      timer.currSolveState === 'DNF'
-    )
+    return formatTime(settings.timer.inspection.time * 1000 - timer.elapsed, 0)
   }
 
   if (settings.timer.hideTime) return 'solve'
   return formatTime(timer.elapsed)
 })
 
-const onKeyDown = (e: KeyboardEvent) => {
-  if (UIStore.isModalOpen || e.code !== 'Space') return
+const onKeyDown = (e: KeyboardEvent | TouchEvent) => {
+  if (UIStore.isModalOpen || ('code' in e && e.code !== 'Space')) return
   e.preventDefault()
 
   timer.keyDown()
@@ -54,8 +50,8 @@ const onKeyDown = (e: KeyboardEvent) => {
   }
 }
 
-const onKeyUp = (e: KeyboardEvent) => {
-  if (UIStore.isModalOpen || e.code !== 'Space') return
+const onKeyUp = (e: KeyboardEvent | TouchEvent) => {
+  if (UIStore.isModalOpen || ('code' in e && e.code !== 'Space')) return
   e.preventDefault()
 
   if (
@@ -107,9 +103,13 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div class="relative flex flex-1 items-center justify-center">
+  <div
+    class="relative flex min-h-0 flex-1 items-center justify-center max-md:absolute max-md:top-1/2 max-md:left-1/2 max-md:-translate-x-1/2 max-md:-translate-y-1/2"
+    @touchstart="onKeyDown"
+    @touchend="onKeyUp"
+  >
     <h2
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem] select-none"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-9xl select-none md:text-[15rem]"
       :class="colorClass"
     >
       {{ displayTime }}

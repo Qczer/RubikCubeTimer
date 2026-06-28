@@ -40,9 +40,9 @@ const refresh = async () => (scramble.value = await getScramble())
 </script>
 <template>
   <div class="mt-5 flex flex-col items-center gap-2">
-    <input
+    <textarea
       :disabled="!editing"
-      class="w-[70%] rounded-lg bg-transparent p-1 text-center text-2xl ring-zinc-700 transition"
+      class="field-sizing-content w-[70%] resize-none rounded-lg bg-transparent p-1 text-center text-2xl ring-zinc-700 transition"
       :class="editing ? 'ring-2' : ''"
       v-model="scrambleText"
     />

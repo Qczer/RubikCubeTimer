@@ -26,7 +26,7 @@ const isActive = computed(() => {
 <template>
   <NuxtLink
     :to="props.text === 'timer' ? '/' : `/${props.text}`"
-    class="inline-flex w-full items-center gap-1 rounded-lg p-2 capitalize transition-opacity md:gap-4"
+    class="inline-flex w-full items-center gap-1 rounded-lg p-2 py-3 capitalize transition-opacity md:gap-4 md:py-4"
     :class="!isActive ? 'opacity-40 hover:opacity-100' : ''"
   >
     <component :is="icons[props.text]" v-if="!invert && icons[props.text]" />
