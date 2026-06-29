@@ -1,9 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-background: #121212;
-  --color-surface: #1f1f1f;
-  --color-foreground: #ffffff;
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
 
   --color-dnf: theme(colors.red.500);
   --color-plusTwo: theme(colors.orange.500);
@@ -11,6 +11,19 @@
 }
 
 @layer base {
+  :root,
+  .dark {
+    --background: #121212;
+    --surface: #1f1f1f;
+    --foreground: #ffffff;
+  }
+
+  .light {
+    --background: #ffffff;
+    --surface: #f3f4f6;
+    --foreground: #121212;
+  }
+
   body {
     @apply text-foreground;
     @apply bg-background;
