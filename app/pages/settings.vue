@@ -21,7 +21,7 @@ const inspectionLabelKey = (key: InspectionSettingKey) =>
 <template>
   <div class="flex flex-col gap-4 p-8">
     <Header title="Settings" />
-    <div v-if="section === 'timer'">
+    <div v-if="section === 'timer'" class="w-fit">
       <Setting
         v-for="key in timerSettingKeys"
         :key="key"

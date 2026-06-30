@@ -3,7 +3,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectItemIndicator,
   SelectItemText,
   SelectPortal,
   SelectRoot,
@@ -18,7 +17,14 @@ import puzzles from '~/types/puzzles'
 const model = defineModel<string | undefined>()
 const props = defineProps<{
   type: 'puzzle' | 'session'
+  bg?: 'zinc' | string
+  text?: string
 }>()
+
+const bgClass = computed(() => {
+  if (props.bg === 'zinc') return 'bg-zinc-900'
+  return props.bg ?? 'bg-surface'
+})
 
 const { sessions } = useSessionsStore()
 const modeOptions = Object.entries(puzzles).map(([value, label]) => ({
@@ -41,9 +47,11 @@ const defaultValue = computed(() =>
 <template>
   <SelectRoot v-model="model" :default-value="defaultValue">
     <SelectTrigger
-      class="bg-surface text-md inline-flex h-8.75 min-w-8.75 items-center justify-between gap-1.25 rounded-lg border border-none px-3.75 leading-none outline-none"
+      class="text-md inline-flex h-8.75 w-fit min-w-8.75 items-center justify-between gap-1.25 rounded-lg border border-none px-3.75 leading-none outline-none"
+      :class="bgClass"
       aria-label="Customise options"
     >
+      {{ text }}
       <SelectValue />
       <img
         v-if="type === 'puzzle'"
@@ -56,7 +64,8 @@ const defaultValue = computed(() =>
 
     <SelectPortal>
       <SelectContent
-        class="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade bg-surface z-100 min-w-6.25 rounded-lg border shadow-sm will-change-[opacity,transform]"
+        class="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-100 min-w-6.25 rounded-lg border shadow-sm will-change-[opacity,transform]"
+        :class="bgClass"
         :side-offset="5"
       >
         <SelectScrollUpButton
@@ -70,14 +79,15 @@ const defaultValue = computed(() =>
             <SelectItem
               v-for="(option, index) in options"
               :key="index"
-              class="text-md relative flex h-6.25 items-center rounded-[3px] pr-8.75 pl-6.25 leading-none select-none data-disabled:pointer-events-none data-highlighted:outline-none"
+              class="text-md relative flex items-center rounded-lg px-5 py-2 outline-none select-none"
+              :class="
+                option.value !== model
+                  ? ['cursor-pointer hover:bg-zinc-800']
+                  : ['opacity-40']
+              "
+              :disabled="option.value === model"
               :value="option.value"
             >
-              <SelectItemIndicator
-                class="absolute left-0 inline-flex w-6.25 items-center justify-center"
-              >
-                <Icon name="radix-icons:check" />
-              </SelectItemIndicator>
               <SelectItemText>
                 {{ option.label }}
               </SelectItemText>

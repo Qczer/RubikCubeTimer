@@ -3,7 +3,7 @@ import type { PuzzleKey } from '~/types/puzzles'
 import Section from '../section.vue'
 import type { Solve } from '~/types/solve.js'
 import type { statsCardProp } from '../card.vue'
-import LineChart from '../lineChart.vue'
+import LineChart from '../../Charts/lineChart.vue'
 
 const props = defineProps<{
   puzzle: PuzzleKey

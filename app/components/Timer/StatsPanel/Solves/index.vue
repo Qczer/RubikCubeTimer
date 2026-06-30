@@ -4,9 +4,13 @@ import type { Solve } from '~/types/solve'
 import SolveCard from './Card/solveCard.vue'
 
 const solves = useSolvesStore()
+const props = defineProps<{
+  solves?: Solve[]
+}>()
 
+const actualSolves = computed(() => props.solves ?? solves.solves)
 const reversedSolves = computed(() => {
-  return [...solves.solves].reverse()
+  return [...actualSolves.value].reverse()
 })
 
 const solveRef = ref<Solve | null>(null)
@@ -30,7 +34,7 @@ const getColor = (solve: Solve) => {
   <SolveCard v-if="solveRef" :solve="solveRef" @close="closeSolve" />
   <div class="h-full overflow-auto">
     <p
-      v-if="solves.solves.length === 0"
+      v-if="actualSolves.length === 0"
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
     >
       No solves yet
@@ -40,7 +44,7 @@ const getColor = (solve: Solve) => {
       :key="i"
       class="flex h-9 shrink-0 flex-row items-center justify-center pr-1.5"
     >
-      <span class="min-w-10 pr-1.5">{{ solves.solves.length - i }}.</span>
+      <span class="min-w-10 pr-1.5">{{ actualSolves.length - i }}.</span>
       <span
         class="w-37.5 shrink-0 cursor-pointer transition hover:underline"
         :class="getColor(solve)"

@@ -12,7 +12,7 @@ const toggleList = () => {
 <template>
   <div
     v-if="!hideLayout"
-    class="bg-surface sticky top-0 z-50 h-12 w-full p-2 md:h-screen md:w-20 md:rounded-r-2xl md:p-5 lg:w-70"
+    class="bg-surface sticky top-0 z-50 h-12 w-full p-2 md:sticky md:top-0 md:h-screen md:w-20 md:self-start md:rounded-r-2xl md:p-5 md:shrink-0 lg:w-65"
   >
     <div class="hidden flex-col md:flex">
       <h2 class="flex items-center justify-center gap-2 text-lg font-bold">
@@ -29,7 +29,7 @@ const toggleList = () => {
       <div></div>
     </div>
     <div class="flex h-full w-full items-center justify-between p-1 md:hidden">
-      <div class="h-full flex-1 items-center">
+      <div class="relative h-full flex-1 items-center">
         <button
           class="relative h-8 w-8 rounded-md bg-zinc-900 p-2 transition"
           @click="toggleList"
@@ -54,16 +54,31 @@ const toggleList = () => {
             :size="16"
           />
         </button>
-        <div
-          v-if="showList"
-          class="mt-5 flex flex-col rounded-xl bg-zinc-900 p-5 pr-12"
+        <Transition
+          enter-active-class="animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-150"
+          leave-active-class="animate-out fade-out zoom-out-95 slide-out-to-top-2 duration-100"
         >
-          <SidebarButton showText invert text="timer" @click="toggleList" />
-          <SidebarButton showText invert text="stats" @click="toggleList" />
-          <SidebarButton showText invert text="solves" @click="toggleList" />
-          <SidebarButton showText invert text="sessions" @click="toggleList" />
-          <SidebarButton showText invert text="settings" @click="toggleList" />
-        </div>
+          <div
+            v-if="showList"
+            class="absolute top-full mt-5 flex flex-col rounded-xl bg-zinc-900 p-5 pr-12 transition"
+          >
+            <SidebarButton showText invert text="timer" @click="toggleList" />
+            <SidebarButton showText invert text="stats" @click="toggleList" />
+            <SidebarButton showText invert text="solves" @click="toggleList" />
+            <SidebarButton
+              showText
+              invert
+              text="sessions"
+              @click="toggleList"
+            />
+            <SidebarButton
+              showText
+              invert
+              text="settings"
+              @click="toggleList"
+            />
+          </div>
+        </Transition>
       </div>
       <img
         class="h-full flex-1 p-0.5 invert"

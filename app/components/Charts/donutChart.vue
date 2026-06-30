@@ -23,36 +23,49 @@ function normalizeData(data: Record<string, number>) {
 }
 
 const preparedData = computed(() => {
+  const data = props.data ?? {}
+
+  const entries = Object.entries(data)
+
+  if (entries.length === 0) {
+    return { empty: 0 }
+  }
+
   return props.normalize ? normalizeData(props.data) : props.data
 })
 
-const series = computed(() => Object.values(preparedData.value))
+const series = computed(() => {
+  const values = Object.values(preparedData.value)
+
+  return values.length ? values : [1]
+})
+
+const labels = computed(() => {
+  const keys = Object.keys(preparedData.value)
+
+  return keys.length ? keys : ['No data']
+})
 
 const options = computed(() => ({
   chart: {
     type: 'donut' as const,
     toolbar: { show: false }
   },
-
-  labels: Object.keys(preparedData.value),
-
+  labels: labels.value,
   dataLabels: {
-    formatter: (val: number) => `${Math.round(val)}%`
+    enabled: false
   },
-
   tooltip: {
     y: {
       formatter: (val: number) => `${val.toFixed(1)}%`
     }
   },
-
   legend: {
     position: 'right' as const,
     labels: {
       colors: '#fff'
     }
   },
-
   stroke: {
     width: 0
   }

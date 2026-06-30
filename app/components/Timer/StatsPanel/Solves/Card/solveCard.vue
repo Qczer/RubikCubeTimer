@@ -5,7 +5,6 @@ import Button from './button.vue'
 import { twistyPlayerPuzzles } from '~/types/puzzles.js'
 import { formatDate } from '#imports'
 
-const settings = useSettingsStore()
 const UIStore = useUIStore()
 const { removeSolve } = useSolvesStore()
 
@@ -39,11 +38,11 @@ onUnmounted(() => (UIStore.isModalOpen = false))
 
 <template>
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex justify-center bg-black/50 backdrop-blur-sm"
     @click="emit('close')"
   >
     <div
-      class="bg-surface relative flex min-h-125 flex-col items-center gap-5 rounded-2xl px-10 py-5 text-center"
+      class="bg-surface relative mt-25 flex h-fit min-h-125 flex-col items-center gap-5 rounded-2xl px-10 py-5 text-center"
       @click.stop
     >
       <button
@@ -70,7 +69,7 @@ onUnmounted(() => (UIStore.isModalOpen = false))
         />
       </div>
       <div class="flex flex-col gap-4">
-        <h2 class="text-5xl">
+        <h2 class="text-7xl">
           {{ formatSolveTime(solve) }}
         </h2>
         <div class="flex gap-2">
@@ -136,7 +135,11 @@ onUnmounted(() => (UIStore.isModalOpen = false))
           />
         </div>
         <div v-if="active === 'notes'" class="w-full">
+          <p v-if="!editing" class="mt-5 text-left italic">
+            {{ solve.notes ? solve.notes : 'No notes for this solve' }}
+          </p>
           <textarea
+            v-else
             v-model="solve.notes"
             class="bg-background w-[80%] resize-none rounded-lg p-1"
             :rows="6"

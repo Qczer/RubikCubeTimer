@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  ssr: false,
   modules: [
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',

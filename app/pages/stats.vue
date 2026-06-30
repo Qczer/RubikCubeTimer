@@ -7,7 +7,7 @@ import Puzzle from '~/components/Stats/PuzzleStats/Puzzle.vue'
 const active = ref<'All' | PuzzleKey>('All')
 </script>
 <template>
-  <div class="flex w-full flex-col gap-4 p-8">
+  <div class="flex flex-1 flex-col gap-4 p-8">
     <Header title="Stats" />
     <div class="flex gap-2 p-2">
       <Button

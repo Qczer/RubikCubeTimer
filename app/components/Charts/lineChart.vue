@@ -15,6 +15,7 @@ const times = computed(() =>
 
 const series = computed(() => [
   {
+    name: 'Time',
     data: times.value
   }
 ])

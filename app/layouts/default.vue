@@ -1,8 +1,8 @@
 <template>
-  <main
-    class="flex min-h-screen min-h-0 w-full min-w-screen flex-col md:flex-row"
-  >
+  <main class="flex min-h-screen w-full min-w-0 flex-col md:flex-row">
     <Sidebar />
-    <slot />
+    <div class="flex min-w-0 flex-1 flex-col">
+      <slot />
+    </div>
   </main>
 </template>

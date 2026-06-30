@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DonutChart from '~/components/Stats/donutChart.vue'
+import DonutChart from '~/components/Charts/donutChart.vue'
 import puzzles from '~/types/puzzles'
 import Section from '../section.vue'
 import type { statsCardProp } from '../card.vue'

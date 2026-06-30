@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia'
+import type { PuzzleKey } from '~/types/puzzles'
 import type { Session } from '~/types/session'
+import type { Solve } from '~/types/solve'
 
 const createDefaultSession = (): Session => ({
   name: 'New Session',
+  date: Date.now(),
   solves: createEmptySolves()
 })
 
@@ -58,14 +61,36 @@ export const useSessionsStore = defineStore('sessions', {
     createSession(name: string) {
       this.sessions.push({
         name,
+        date: Date.now(),
         solves: createEmptySolves()
       })
     },
 
-    deleteSession(name: string) {
+    mergeSession(session: Session) {
+      const current = this.ensureCurrentSession()
+
+      const result: Record<PuzzleKey, Solve[]> = { ...current.solves }
+
+      for (const [puzzle, solves] of Object.entries(session.solves)) {
+        const key = puzzle as PuzzleKey
+        result[key] = [...(result[key] ?? []), ...solves]
+      }
+
+      current.solves = result
+      this.deleteSession(session)
+    },
+
+    deleteSessionByName(name: string) {
       if (this.sessions.length === 1) return
 
       const remaining = this.sessions.filter((s) => s.name !== name)
+      this.sessions =
+        remaining.length > 0 ? remaining : [createDefaultSession()]
+    },
+    deleteSession(session: Session) {
+      if (this.sessions.length === 1) return
+
+      const remaining = this.sessions.filter((s) => s !== session)
       this.sessions =
         remaining.length > 0 ? remaining : [createDefaultSession()]
     }
