@@ -13,10 +13,13 @@ const reversedSolves = computed(() => {
   return [...actualSolves.value].reverse()
 })
 
-const solveRef = ref<Solve | null>(null)
-
-const showSolve = (solve: Solve) => (solveRef.value = solve)
-const closeSolve = () => (solveRef.value = null)
+const {
+  selected: selectedSolve,
+  isOpen: isSolveOpen,
+  open: showSolve,
+  close: closeSolve,
+  clearAfterLeave: clearSolve
+} = useTransitionedSelection<Solve>()
 
 const colors = {
   dnf: 'text-dnf',
@@ -31,7 +34,12 @@ const getColor = (solve: Solve) => {
 }
 </script>
 <template>
-  <SolveCard v-if="solveRef" :solve="solveRef" @close="closeSolve" />
+  <SolveCard
+    :open="isSolveOpen"
+    :solve="selectedSolve"
+    @close="closeSolve"
+    @after-leave="clearSolve"
+  />
   <div class="h-full overflow-auto">
     <p
       v-if="actualSolves.length === 0"

@@ -12,7 +12,7 @@ const toggleList = () => {
 <template>
   <div
     v-if="!hideLayout"
-    class="bg-surface sticky top-0 z-50 h-12 w-full p-2 md:sticky md:top-0 md:h-screen md:w-20 md:self-start md:rounded-r-2xl md:p-5 md:shrink-0 lg:w-65"
+    class="bg-surface sticky top-0 z-20 h-12 w-full p-2 md:sticky md:top-0 md:h-screen md:w-20 md:shrink-0 md:self-start md:rounded-r-2xl md:p-5 lg:w-65"
   >
     <div class="hidden flex-col md:flex">
       <h2 class="flex items-center justify-center gap-2 text-lg font-bold">

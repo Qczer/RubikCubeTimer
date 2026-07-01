@@ -64,22 +64,19 @@ const closeSolveCard = () => (showSolveCard.value = false)
 </script>
 <template>
   <SolveCard
-    v-if="
-      showSolveCard &&
-      lastSolve &&
-      (props.type === 'pb' || props.type === 'worst')
-    "
+    v-if="(props.type === 'pb' || props.type === 'worst') && lastSolve"
+    :open="showSolveCard"
     :solve="lastSolve"
     @close="closeSolveCard"
   />
   <AverageCard
     v-else-if="
-      showSolveCard &&
       value &&
       'solves' in value &&
       props.type !== 'pb' &&
       props.type !== 'worst'
     "
+    :open="showSolveCard"
     :average="value"
     :puzzle="puzzle"
     :isPb="isPb"

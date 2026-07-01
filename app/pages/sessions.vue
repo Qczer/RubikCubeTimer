@@ -17,6 +17,10 @@ const selectedPuzzle = ref<PuzzleKey>('333')
 const showCreateNewSession = ref(false)
 const createNewSession = () => (showCreateNewSession.value = true)
 const closeCreateNewSession = () => (showCreateNewSession.value = false)
+
+const chartsKey = computed(
+  () => `${selectedSession.value.date}-${selectedPuzzle.value}`
+)
 </script>
 <template>
   <div class="flex flex-1 flex-col gap-4 p-8">
@@ -66,10 +70,16 @@ const closeCreateNewSession = () => (showCreateNewSession.value = false)
             <Solves :solves="selectedSession.solves[selectedPuzzle]" />
           </div>
           <div class="bg-surface aspect-square flex-1 rounded-xl p-5">
-            <LineChart :data="selectedSession.solves[selectedPuzzle]" />
+            <LineChart
+              :key="`line-${chartsKey}`"
+              :data="selectedSession.solves[selectedPuzzle]"
+            />
           </div>
           <div class="bg-surface aspect-square flex-1 rounded-xl p-5">
-            <ColumnChart :data="selectedSession.solves[selectedPuzzle]" />
+            <ColumnChart
+              :key="`column-${chartsKey}`"
+              :data="selectedSession.solves[selectedPuzzle]"
+            />
           </div>
         </div>
       </div>

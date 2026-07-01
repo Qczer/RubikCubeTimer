@@ -52,7 +52,8 @@ const closeSolveCard = () => (showSolveCard.value = false)
 </script>
 <template>
   <SolveCard
-    v-if="showSolveCard && isSolve(value)"
+    v-if="isSolve(value)"
+    :open="showSolveCard"
     :solve="value"
     @close="closeSolveCard"
   />

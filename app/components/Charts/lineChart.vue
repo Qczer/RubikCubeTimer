@@ -20,12 +20,25 @@ const series = computed(() => [
   }
 ])
 // TODO: Remove this hardcoded color
-const options = {
+const options = computed(() => ({
   chart: {
     type: 'line' as const,
     background: '#1f1f1f' as const,
     zoom: {
       enabled: false
+    },
+    animations: {
+      enabled: true,
+      easing: 'easeinout',
+      speed: 350,
+      animateGradually: {
+        enabled: true,
+        delay: 80
+      },
+      dynamicAnimation: {
+        enabled: true,
+        speed: 350
+      }
     }
   },
   yaxis: {
@@ -62,7 +75,7 @@ const options = {
     mode: 'dark' as const
   },
   colors: ['#3b82f6']
-}
+}))
 </script>
 
 <template>

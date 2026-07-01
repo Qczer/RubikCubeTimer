@@ -31,7 +31,7 @@ const bins = computed(() => {
     }
   }
 
-  const result = Array(size).fill(0)
+  const result = new Array(size).fill(0)
 
   values.forEach((v) => {
     const idx = Math.floor(v) - min
@@ -56,10 +56,23 @@ const series = computed(() => [
   }
 ])
 // TODO: Remove this hardcoded color
-const options = {
+const options = computed(() => ({
   chart: {
     type: 'bar' as const,
-    background: '#1f1f1f' as const
+    background: '#1f1f1f' as const,
+    animations: {
+      enabled: true,
+      easing: 'easeinout',
+      speed: 350,
+      animateGradually: {
+        enabled: true,
+        delay: 80
+      },
+      dynamicAnimation: {
+        enabled: true,
+        speed: 350
+      }
+    }
   },
   plotOptions: {
     bar: {
@@ -92,7 +105,7 @@ const options = {
     mode: 'dark' as const
   },
   colors: ['#00ff5a']
-}
+}))
 </script>
 
 <template>
