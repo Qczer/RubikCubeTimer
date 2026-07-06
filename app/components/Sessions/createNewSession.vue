@@ -61,7 +61,7 @@ onUnmounted(() => (UIStore.isModalOpen = false))
       </div>
       <div class="flex flex-col gap-1">
         <p class="text-sm">Cube Type</p>
-        <Dropdown v-model="puzzle" type="puzzle" bg="zinc" class="w-fit" />
+        <Dropdown v-model="puzzle" type="puzzle" bg="zinc-900" class="w-fit" />
       </div>
       <p class="text-sm opacity-50">You can change this later</p>
       <button

@@ -7,7 +7,7 @@ const getCurrentPuzzleSolves = () => {
   const sessions = useSessionsStore()
   const settings = useSettingsStore()
   const session = sessions.ensureCurrentSession()
-  const puzzle = settings.timer.puzzle as keyof typeof session.solves
+  const puzzle = settings.timer.puzzle
 
   if (puzzle in session.solves) {
     session.solves[puzzle] ??= []

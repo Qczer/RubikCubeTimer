@@ -58,12 +58,7 @@ const chartsKey = computed(
             type="text"
             class="rounded-md bg-zinc-700 p-2 outline-none"
           />
-          <Dropdown
-            v-model="selectedPuzzle"
-            type="puzzle"
-            bg="bg-zinc-700"
-            text="Stats for"
-          />
+          <Dropdown v-model="selectedPuzzle" type="puzzle" text="Stats for" />
         </div>
         <div class="flex gap-5">
           <div class="bg-surface relative aspect-square flex-1 rounded-xl p-5">

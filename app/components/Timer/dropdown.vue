@@ -17,12 +17,14 @@ import puzzles from '~/types/puzzles'
 const model = defineModel<string | undefined>()
 const props = defineProps<{
   type: 'puzzle' | 'session'
-  bg?: 'zinc' | string
+  bg?: 'zinc-700' | 'zinc-800' | 'zinc-900' | string
   text?: string
 }>()
 
 const bgClass = computed(() => {
-  if (props.bg === 'zinc') return 'bg-zinc-900'
+  if (props.bg === 'zinc-700') return 'bg-zinc-700'
+  else if (props.bg === 'zinc-800') return 'bg-zinc-800'
+  else if (props.bg === 'zinc-900') return 'bg-zinc-900'
   return props.bg ?? 'bg-surface'
 })
 
@@ -82,7 +84,12 @@ const defaultValue = computed(() =>
               class="text-md relative flex items-center rounded-lg px-5 py-2 outline-none select-none"
               :class="
                 option.value !== model
-                  ? ['cursor-pointer hover:bg-zinc-800']
+                  ? [
+                      'cursor-pointer',
+                      bg === 'zinc-800'
+                        ? 'hover:bg-zinc-700'
+                        : 'hover:bg-zinc-800'
+                    ]
                   : ['opacity-40']
               "
               :disabled="option.value === model"
