@@ -8,7 +8,7 @@ const settings = useSettingsStore()
 </script>
 
 <template>
-  <div class="flex min-h-0 flex-1 flex-col">
+  <div class="flex max-h-screen min-h-0 flex-1 flex-col">
     <div
       v-if="!hideLayout"
       class="flex h-auto w-full flex-none shrink-0 gap-2 p-2"

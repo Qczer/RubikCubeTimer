@@ -28,14 +28,20 @@ export const useSolvesStore = defineStore('solves', {
       getCurrentPuzzleSolves().push(solve)
     },
 
-    removeSolve(solve: Solve) {
-      const solves = getCurrentPuzzleSolves()
-      const settings = useSettingsStore()
+    removeSolve(solve: Solve, confirmDelete: boolean = true) {
+      const sessions = useSessionsStore()
+      const sessionSolves = sessions.sessions.find((solves) =>
+        solves.solves[solve.puzzle].includes(solve)
+      )
 
-      if (settings.timer.confirmDelete) {
+      if (!sessionSolves) return
+
+      const settings = useSettingsStore()
+      if (settings.timer.confirmDelete && confirmDelete) {
         if (!confirm('Na pewno chcesz usunąć ten element?')) return
       }
 
+      const solves = sessionSolves.solves[solve.puzzle]
       solves.splice(0, solves.length, ...solves.filter((s) => s !== solve))
     },
 
@@ -45,6 +51,11 @@ export const useSolvesStore = defineStore('solves', {
 
     toggleDNF(solve: Solve) {
       solve.DNF = !solve.DNF
+    },
+
+    markOK(solve: Solve) {
+      solve.plusTwo = false
+      solve.DNF = false
     }
   }
 })

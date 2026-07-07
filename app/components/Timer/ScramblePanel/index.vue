@@ -45,6 +45,8 @@ const refresh = async () => (scramble.value = await getScramble())
       class="field-sizing-content w-[70%] resize-none rounded-lg bg-transparent p-1 text-center text-2xl ring-zinc-700 transition"
       :class="editing ? 'ring-2' : ''"
       v-model="scrambleText"
+      @keydown.stop
+      @keyup.stop
     />
     <div class="flex gap-3">
       <ScrambleButton type="edit" :toggleEdit="toggleEdit" :locked="locked" />

@@ -43,7 +43,7 @@ const options = computed(() =>
   props.type === 'session' ? sessionOptions.value : modeOptions
 )
 const defaultValue = computed(() =>
-  props.type === 'session' ? sessions[0]?.name : '222'
+  props.type === 'session' ? sessions[0]?.name : '333'
 )
 </script>
 <template>
