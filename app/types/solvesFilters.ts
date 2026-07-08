@@ -1,3 +1,5 @@
+import type { PuzzleKey } from './puzzles'
+
 export type FilterValue = 'only' | 'no' | null
 
 export interface SolveFilters {
@@ -13,5 +15,6 @@ export interface SolveSort {
 export interface SolvePopup {
   type: 'confirm' | 'select' | null
   action: 'delete' | 'session' | 'event' | '+2' | 'DNF' | 'OK' | null
+  puzzle?: PuzzleKey
   solvesCount?: number
 }

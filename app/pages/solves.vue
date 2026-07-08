@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from '~/components/Solves/Button/index.vue'
 import Card from '~/components/Solves/card.vue'
-import Popup from '~/components/Solves/popup.vue'
+import Popup from '~/components/Solves/Popup/index.vue'
 import Dropdown from '~/components/Timer/dropdown.vue'
 import type { PuzzleKey } from '~/types/puzzles'
 import type { Solve } from '~/types/solve'
@@ -108,6 +108,7 @@ const onConfirm = () => {
       solves.value.forEach((s) => markOK(s))
       break
     case 'session': {
+      console.log('Moving solves to session:', inputValue.value)
       const sess = sessions.sessions.find((s) => s.name === inputValue.value)
 
       if (!sess) return
@@ -144,6 +145,7 @@ const showPopup = computed(() => popupType.value.action !== null)
       :action="popupType.action"
       :type="popupType.type"
       :solvesCount="solves.length"
+      :puzzle="puzzle"
       @close="popupType = { action: null, type: null }"
       @onConfirm="onConfirm"
     />

@@ -245,3 +245,20 @@ export const eventDistribution = computed<Record<string, number>>(() => {
     ])
   )
 })
+
+export const getMainSession = (puzzle: PuzzleKey) => {
+  const { sessions } = useSessionsStore()
+  const sessionCounts = new Map<string, number>()
+
+  for (const session of sessions) {
+    const solves = session.solves[puzzle].length ?? 0
+    sessionCounts.set(session.name, solves)
+  }
+
+  const maxSolves = Math.max(...sessionCounts.values())
+  const mainSession = [...sessionCounts.entries()]
+    .filter(([, count]) => count === maxSolves)
+    .map(([name]) => name)
+
+  return mainSession[0] || null
+}

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { X } from '@lucide/vue'
 import type { SolvePopup } from '~/types/solvesFilters'
-import Dropdown from '../Timer/dropdown.vue'
+import Dropdown from '../../Timer/dropdown.vue'
+import RedCard from './redCard.vue'
 
 const props = defineProps<SolvePopup>()
 const model = defineModel<string | undefined>()
@@ -10,15 +11,18 @@ const emit = defineEmits<{
   onConfirm: []
 }>()
 
+const localType = ref(props.type)
+const session = ref<string | undefined>()
+
 const notReady = computed(
   () =>
-    (props.type === 'confirm' && model.value !== 'confirm') ||
-    (props.type === 'select' && model.value === '')
+    (localType.value === 'confirm' && model.value !== 'confirm') ||
+    (localType.value === 'select' && model.value === '')
 )
 
 const header = computed(() => {
-  if (props.type === 'confirm') {
-    return `Bulk ${props.action} solves`
+  if (localType.value === 'confirm') {
+    return `Bulk ${props.action === 'session' ? 'move' : props.action} solves`
   } else if (props.action === 'session') {
     return 'Move solves'
   } else if (props.action === 'event') {
@@ -37,11 +41,26 @@ const message = computed(() => {
     case 'OK':
       return 'You are about to remove any +2 or DNF from the selected solves.'
     case 'session':
+      if (localType.value === 'confirm')
+        return `You are about to do a bulk move of solves.`
+
       return 'Select a session to move the selected solves to'
     case 'event':
       return 'Select which event type to associate the selected solves with'
   }
 })
+
+const confirmBtnText = computed(() => {
+  if (props.action === 'session') {
+    return 'Move'
+  } else if (props.action) {
+    return capitalizeFirstLetter(props.action)
+  }
+})
+
+function capitalizeFirstLetter(val: string) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1)
+}
 </script>
 <template>
   <div
@@ -62,17 +81,34 @@ const message = computed(() => {
         <h2 class="text-3xl font-semibold">{{ header }}</h2>
         <p>
           {{ message }}
-          {{ type === 'confirm' && 'This is irreversible. Be careful.' }}
+          {{ localType === 'confirm' && 'This is irreversible. Be careful.' }}
         </p>
       </div>
-      <template v-if="type === 'confirm'">
-        <div
-          class="flex w-40 flex-col justify-between rounded-md bg-red-500 p-4"
-        >
-          <p class="text-2xl font-bold">{{ solvesCount }}</p>
-          <p class="opacity-80">Solves</p>
+      <template v-if="localType === 'confirm'">
+        <div class="flex gap-2">
+          <RedCard
+            v-if="solvesCount"
+            :header="solvesCount"
+            :subheader="'Solves'"
+          />
+          <RedCard
+            v-if="session"
+            :header="session"
+            :subheader="puzzle ? (getMainSession(puzzle) ?? session) : session"
+          />
         </div>
-        <div class="flex flex-col gap-2">
+        <form
+          class="flex flex-col gap-2"
+          @submit.prevent="
+            () => {
+              if (notReady) return
+
+              model = session
+              emit('onConfirm')
+              emit('close')
+            }
+          "
+        >
           <div>
             <input
               v-model="model"
@@ -84,18 +120,13 @@ const message = computed(() => {
           </div>
           <button
             :disabled="notReady"
+            type="submit"
             class="w-fit rounded-md bg-red-500 p-2 transition"
             :class="notReady && 'opacity-60'"
-            @click="
-              () => {
-                emit('onConfirm')
-                emit('close')
-              }
-            "
           >
-            Delete {{ solvesCount }} solves
+            {{ confirmBtnText }} {{ solvesCount }} solves
           </button>
-        </div>
+        </form>
       </template>
       <template v-else>
         <Dropdown
@@ -104,18 +135,27 @@ const message = computed(() => {
           :type="props.action === 'session' ? 'session' : 'puzzle'"
           bg="zinc-700"
         />
+        <p
+          v-if="solvesCount && model"
+          class="w-fit border-b-4 border-zinc-700 text-2xl"
+        >
+          Move
+          <span class="text-green-600">{{ solvesCount }} solves</span> to
+          <span class="text-orange-600">{{ model }}</span>
+        </p>
         <button
           :disabled="notReady"
           class="w-fit rounded-md bg-blue-600 p-2 transition"
           :class="notReady && 'opacity-60'"
           @click="
             () => {
-              emit('onConfirm')
-              emit('close')
+              session = model
+              localType = 'confirm'
+              model = ''
             }
           "
         >
-          Confirm
+          Continue
         </button>
       </template>
     </div>
